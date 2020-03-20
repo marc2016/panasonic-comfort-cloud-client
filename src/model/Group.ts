@@ -1,6 +1,6 @@
 import { Device } from "./Device"
 
-export default class Group {
+export class Group {
     private _id: number
     private _name: string
     private _devices: Array<Device>

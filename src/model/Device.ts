@@ -76,6 +76,19 @@ export class Device {
         this._name = name
     }
 
+    public get parameters(): any {
+        return {
+            operate: this._operate,
+            operationMode: this._operationMode,
+            ecoMode: this._ecoMode,
+            temperatureSet: this._temperatureSet,
+            airSwingUD: this._airSwingUD,
+            airSwingLR: this._airSwingLR,
+            fanAutoMode: this._fanAutoMode,
+            fanSpeed: this._fanSpeed
+        }
+    }
+
     /**
      * Getter operate
      * @return {Power}

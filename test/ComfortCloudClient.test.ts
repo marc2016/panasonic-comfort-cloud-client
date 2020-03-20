@@ -1,5 +1,5 @@
 import { ComfortCloudClient } from "../src/ComfortCloudClient"
-import Group from "../src/model/Group"
+import { Group } from "../src/model/Group"
 import { Device } from "../src/model/Device"
 import * as auth from "./auth_data.json"
 
@@ -56,7 +56,7 @@ test("setDevice", async () => {
             device.temperatureSet = newTemp
             await client.setDevice(device)
             const newDevice = await client.getDevice(device.guid)
-            expect(newDevice?.guid).toBe(newTemp)
+            expect(newDevice?.temperatureSet).toBe(newTemp)
         }
     }
 })

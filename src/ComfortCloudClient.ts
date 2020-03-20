@@ -4,7 +4,7 @@ import * as _ from "lodash"
 import { LoginData } from "./model/LoginData"
 import { ServiceError } from "./model/ServiceError"
 import { Device } from "./model/Device"
-import Group from "./model/Group"
+import { Group } from "./model/Group"
 
 export class ComfortCloudClient {
     readonly baseUrl = "https://accsmart.panasonic.com"
@@ -102,7 +102,9 @@ export class ComfortCloudClient {
             )
             if (response.status == 200) {
                 const responseData = response.data
-                const retDevice = responseData.parameters as Device
+                const retDevice = new Device("", "")
+                _.assign(retDevice, responseData.parameters)
+
                 retDevice.guid = responseData.deviceGuid
                 retDevice.name = responseData.deviceName
                 return retDevice
@@ -127,7 +129,7 @@ export class ComfortCloudClient {
     async setDevice(device: Device) {
         const body = {
             deviceGuid: device.guid,
-            parameters: device
+            parameters: device.parameters
         }
         try {
             const response = await this.axiosInstance.post(
