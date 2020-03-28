@@ -126,7 +126,7 @@ export class ComfortCloudClient {
         )
     }
 
-    async setDevice(device: Device) {
+    async setDevice(device: Device): Promise<any> {
         const body = {
             deviceGuid: device.guid,
             parameters: device.parameters
