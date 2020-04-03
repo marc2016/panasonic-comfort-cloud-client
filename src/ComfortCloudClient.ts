@@ -124,10 +124,10 @@ export class ComfortCloudClient {
   }
 
   async setDevice(device: Device): Promise<any> {
-    return this.setParameter(device.guid, device.parameters)
+    return this.setParameters(device.guid, device.parameters)
   }
 
-  async setParameter(guid: string, parameters: Parameters) {
+  async setParameters(guid: string, parameters: Parameters) {
     const body = {
       deviceGuid: guid,
       parameters: parameters
