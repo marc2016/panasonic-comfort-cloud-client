@@ -9,6 +9,7 @@ import {
     EcoMode,
     FanAutoMode
 } from "../domain/enums"
+import { Parameters } from "./Parameters"
 
 /*
 {
@@ -76,7 +77,7 @@ export class Device {
         this._name = name
     }
 
-    public get parameters(): any {
+    public get parameters(): Parameters {
         return {
             operate: this._operate,
             operationMode: this._operationMode,

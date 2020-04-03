@@ -1,36 +1,39 @@
 {
-    "name": "panasonic-comfort-cloud-client",
-    "version": "0.0.7",
-    "description": "",
-    "main": "./dist/src/index.js",
-    "scripts": {
-        "test": "jest --config jest.json",
-        "build": "tsc"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/marc2016/panasonic-comfort-cloud-client.git"
-    },
-    "author": "Marc Lammers",
-    "license": "MIT",
-    "bugs": {
-        "url": "https://github.com/marc2016/panasonic-comfort-cloud-client/issues"
-    },
-    "homepage": "https://github.com/marc2016/panasonic-comfort-cloud-client#readme",
-    "devDependencies": {
-        "@types/jest": "^24.0.25",
-        "@types/lodash": "^4.14.149",
-        "@types/node": "^13.1.5",
-        "@typescript-eslint/eslint-plugin": "^2.23.0",
-        "@typescript-eslint/parser": "^2.23.0",
-        "eslint": "^6.8.0",
-        "eslint-config-google": "^0.14.0",
-        "jest": "^24.9.0",
-        "ts-jest": "^24.2.0",
-        "typescript": "^3.7.4"
-    },
-    "dependencies": {
-        "axios": "^0.19.0",
-        "lodash": "^4.17.15"
-    }
+  "name": "panasonic-comfort-cloud-client",
+  "version": "0.0.8",
+  "description": "",
+  "main": "./dist/src/index.js",
+  "scripts": {
+    "test": "jest --config jest.json",
+    "build": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/marc2016/panasonic-comfort-cloud-client.git"
+  },
+  "author": "Marc Lammers",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/marc2016/panasonic-comfort-cloud-client/issues"
+  },
+  "homepage": "https://github.com/marc2016/panasonic-comfort-cloud-client#readme",
+  "devDependencies": {
+    "@types/jest": "^24.0.25",
+    "@types/lodash": "^4.14.149",
+    "@types/node": "^13.1.5",
+    "@typescript-eslint/eslint-plugin": "^2.23.0",
+    "@typescript-eslint/parser": "^2.23.0",
+    "eslint": "^6.8.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-config-prettier": "^6.10.1",
+    "eslint-plugin-prettier": "^3.1.2",
+    "jest": "^24.9.0",
+    "prettier": "^2.0.2",
+    "ts-jest": "^24.2.0",
+    "typescript": "^3.7.4"
+  },
+  "dependencies": {
+    "axios": "^0.19.0",
+    "lodash": "^4.17.15"
+  }
 }
