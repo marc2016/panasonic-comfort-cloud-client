@@ -9,6 +9,7 @@ import {
 } from '../domain/enums'
 
 export interface Parameters {
+  [key: string]: any
   operate?: Power
   operationMode?: OperationMode
   ecoMode?: EcoMode
