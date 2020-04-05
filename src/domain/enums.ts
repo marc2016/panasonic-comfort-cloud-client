@@ -1,64 +1,62 @@
 export enum Power {
-    Off  = 0,
-    On  = 1
+  Off = 0,
+  On = 1,
 }
 
-export enum OperationMode { 
-    Auto  = 0,
-    Dry  = 1,
-    Cool  = 2,
-    Heat  = 3,
-    Fan  = 4,
+export enum OperationMode {
+  Auto = 0,
+  Dry = 1,
+  Cool = 2,
+  Heat = 3,
+  Fan = 4,
 }
 
 export enum AirSwingUD {
-    Auto = -1,
-    Up  = 0,
-    UpMid  = 3,
-    Mid  = 2,
-    DownMid  = 4,
-    Down  = 1
+  Up = 0,
+  UpMid = 3,
+  Mid = 2,
+  DownMid = 4,
+  Down = 1,
 }
 
 export enum AirSwingLR {
-    Auto = -1,
-    Left  = 0,
-    LeftMid  = 4,
-    Mid  = 2,
-    RightMid  = 3,
-    Right  = 1
+  Left = 0,
+  LeftMid = 4,
+  Mid = 2,
+  RightMid = 3,
+  Right = 1,
 }
 
 export enum EcoMode {
-    Auto  = 0,
-    Powerful  = 1,
-    Quiet  = 2
+  Auto = 0,
+  Powerful = 1,
+  Quiet = 2,
 }
 
 export enum AirSwingAutoMode {
-    Disabled  = 1,
-    Both  = 0,
-    AirSwingLR  = 3,
-    AirSwingUD  = 2
+  Disabled = 1,
+  Both = 0,
+  AirSwingLR = 3,
+  AirSwingUD = 2,
 }
 
 export enum FanSpeed {
-    Auto  = 0,
-    Low  = 1,
-    LowMid  = 2,
-    Mid  = 3,
-    HighMid  = 4,
-    High  = 5
+  Auto = 0,
+  Low = 1,
+  LowMid = 2,
+  Mid = 3,
+  HighMid = 4,
+  High = 5,
 }
 
 export enum dataMode {
-    Day  = 0,
-    Week  = 1,
-    Month  = 2,
-    Year  = 4
+  Day = 0,
+  Week = 1,
+  Month = 2,
+  Year = 4,
 }
 
 export enum FanAutoMode {
-    Disabled = 1,
-    Enabled = 2
+  Disabled = 1,
+  Enabled = 2,
 }
