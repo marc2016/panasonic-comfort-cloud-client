@@ -1,6 +1,6 @@
 {
   "name": "panasonic-comfort-cloud-client",
-  "version": "0.0.14",
+  "version": "0.0.18",
   "description": "",
   "main": "./dist/src/index.js",
   "scripts": {
