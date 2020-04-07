@@ -61,7 +61,7 @@ export class Device {
   private _operationMode: OperationMode = OperationMode.Auto
   private _temperatureSet = 0
   private _fanSpeed: FanSpeed = FanSpeed.Auto
-  private _fanAutoMode: FanAutoMode = FanAutoMode.Enabled
+  private _fanAutoMode: FanAutoMode = FanAutoMode.AirSwingAuto
   private _airSwingLR: AirSwingLR = AirSwingLR.Mid
   private _airSwingUD: AirSwingUD = AirSwingUD.Mid
   private _ecoMode: EcoMode = EcoMode.Auto

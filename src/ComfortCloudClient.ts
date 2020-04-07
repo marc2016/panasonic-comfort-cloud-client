@@ -6,6 +6,7 @@ import { ServiceError } from './model/ServiceError'
 import { Device } from './model/Device'
 import { Group } from './model/Group'
 import { Parameters } from './model/Parameters'
+import { TokenExpiredError } from './model/TokenExpiredError'
 
 export class ComfortCloudClient {
   readonly baseUrl = 'https://accsmart.panasonic.com'
@@ -116,6 +117,13 @@ export class ComfortCloudClient {
   private handleError(error: any): void {
     const errorResponse = error.response
     const responseData = errorResponse.data
+    if (responseData.code === '4100') {
+      throw new TokenExpiredError(
+        responseData.message,
+        responseData.code,
+        errorResponse.status
+      )
+    }
     throw new ServiceError(
       responseData.message,
       responseData.code,
