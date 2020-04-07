@@ -33,13 +33,6 @@ export enum EcoMode {
   Quiet = 2,
 }
 
-export enum AirSwingAutoMode {
-  Disabled = 1,
-  Both = 0,
-  AirSwingLR = 3,
-  AirSwingUD = 2,
-}
-
 export enum FanSpeed {
   Auto = 0,
   Low = 1,
@@ -58,5 +51,7 @@ export enum dataMode {
 
 export enum FanAutoMode {
   Disabled = 1,
-  Enabled = 2,
+  AirSwingAuto = 0,
+  AirSwingLR = 3,
+  AirSwingUD = 2,
 }
