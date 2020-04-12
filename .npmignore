@@ -118,3 +118,11 @@ temp/
 
 # End of https://www.gitignore.io/api/node,visualstudiocode
 test/auth_data.json
+
+tsconfig.json
+.travis.yml
+.nojekyll
+dev/
+docs/
+dist/test/
+.npmignore

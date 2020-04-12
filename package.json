@@ -3,9 +3,11 @@
   "version": "1.0.0",
   "description": "",
   "main": "./dist/src/index.js",
+  "types": "./dist/src/index.d.ts",
   "scripts": {
     "test": "jest --config jest.json",
-    "build": "tsc"
+    "build": "tsc",
+    "setup": "npm install"
   },
   "repository": {
     "type": "git",
