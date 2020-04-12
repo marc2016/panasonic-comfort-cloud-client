@@ -25,10 +25,10 @@ export class ComfortCloudClient {
 
   constructor() {
     this.axiosInstance = axios.create({
-      baseURL: this.baseUrl
+      baseURL: this.baseUrl,
     })
     const agent = new https.Agent({
-      rejectUnauthorized: false
+      rejectUnauthorized: false,
     })
 
     this.axiosInstance.defaults.httpsAgent = agent
@@ -45,7 +45,7 @@ export class ComfortCloudClient {
   async login(
     username: string,
     password: string,
-    language: number
+    language?: number
   ): Promise<string> {
     const loginData = new LoginData(username, password, language)
     try {
@@ -68,12 +68,12 @@ export class ComfortCloudClient {
   async getGroups(): Promise<Array<Group>> {
     try {
       const response = await this.axiosInstance.get(this.urlPartGroup, {
-        headers: { 'X-User-Authorization': this._token }
+        headers: { 'X-User-Authorization': this._token },
       })
       if (response.status == 200) {
         const groupsResponse = response.data.groupList
-        const groups = _.map(groupsResponse, element => {
-          const devices = _.map(element.deviceIdList, device => {
+        const groups = _.map(groupsResponse, (element) => {
+          const devices = _.map(element.deviceIdList, (device) => {
             const retDevice = device.parameters as Device
             retDevice.guid = device.deviceGuid
             retDevice.name = device.deviceName
@@ -95,7 +95,7 @@ export class ComfortCloudClient {
       const response = await this.axiosInstance.get(
         this.urlPartDevice + '/' + id,
         {
-          headers: { 'X-User-Authorization': this._token }
+          headers: { 'X-User-Authorization': this._token },
         }
       )
       if (response.status == 200) {
@@ -138,14 +138,14 @@ export class ComfortCloudClient {
   async setParameters(guid: string, parameters: Parameters) {
     const body = {
       deviceGuid: guid,
-      parameters: parameters
+      parameters: parameters,
     }
     try {
       const response = await this.axiosInstance.post(
         this.urlPartDeviceControl,
         body,
         {
-          headers: { 'X-User-Authorization': this._token }
+          headers: { 'X-User-Authorization': this._token },
         }
       )
       return response
