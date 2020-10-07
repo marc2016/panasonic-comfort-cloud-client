@@ -73,7 +73,7 @@ export class ComfortCloudClient {
       if (response.status == 200) {
         const groupsResponse = response.data.groupList
         const groups = _.map(groupsResponse, (element) => {
-          const devices = _.map(element.deviceIdList, (device) => {
+          const devices = _.map(element.deviceList, (device) => {
             const retDevice = device.parameters as Device
             retDevice.guid = device.deviceGuid
             retDevice.name = device.deviceName
