@@ -2,7 +2,6 @@ import { ComfortCloudClient } from '../src/ComfortCloudClient'
 import { Group } from '../src/model/Group'
 import { Device } from '../src/model/Device'
 import * as auth from './auth_data.json'
-import { Parameters, AirSwingLR } from '../src'
 
 const password = auth.password
 const username = auth.username

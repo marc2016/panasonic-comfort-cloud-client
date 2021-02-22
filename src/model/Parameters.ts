@@ -5,7 +5,8 @@ import {
   AirSwingUD,
   AirSwingLR,
   FanAutoMode,
-  FanSpeed
+  FanSpeed,
+  NanoeMode
 } from '../domain/enums'
 
 export interface Parameters {
@@ -18,4 +19,5 @@ export interface Parameters {
   airSwingLR?: AirSwingLR
   fanAutoMode?: FanAutoMode
   fanSpeed?: FanSpeed
+  actualNanoe?: NanoeMode
 }

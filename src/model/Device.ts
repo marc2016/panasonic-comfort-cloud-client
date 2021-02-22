@@ -7,7 +7,8 @@ import {
   AirSwingLR,
   AirSwingUD,
   EcoMode,
-  FanAutoMode
+  FanAutoMode,
+  NanoeMode
 } from '../domain/enums'
 import { Parameters } from './Parameters'
 
@@ -65,12 +66,14 @@ export class Device {
   private _airSwingLR: AirSwingLR = AirSwingLR.Mid
   private _airSwingUD: AirSwingUD = AirSwingUD.Mid
   private _ecoMode: EcoMode = EcoMode.Auto
+  private _actualNanoe: NanoeMode = NanoeMode.Unavailable
   private _ecoNavi = 0
-  private _nanoe = 0
+  private _nanoe: NanoeMode = NanoeMode.Unavailable
   private _iAuto = 0
-  private _actualNanoe = 0
   private _airDirection = 0
   private _ecoFunctionData = 0
+  private _insideTemperature = 0
+  private _outTemperature = 0
 
   constructor(guid: string, name: string) {
     this._guid = guid
@@ -86,7 +89,8 @@ export class Device {
       airSwingUD: this._airSwingUD,
       airSwingLR: this._airSwingLR,
       fanAutoMode: this._fanAutoMode,
-      fanSpeed: this._fanSpeed
+      fanSpeed: this._fanSpeed,
+      actualNanoe: this._actualNanoe
     }
   }
 
@@ -165,9 +169,9 @@ export class Device {
 
   /**
    * Getter nanoe
-   * @return {number}
+   * @return {NanoeMode}
    */
-  public get nanoe(): number {
+  public get nanoe(): NanoeMode {
     return this._nanoe
   }
 
@@ -181,9 +185,9 @@ export class Device {
 
   /**
    * Getter actualNanoe
-   * @return {number}
+   * @return {NanoeMode}
    */
-  public get actualNanoe(): number {
+  public get actualNanoe(): NanoeMode {
     return this._actualNanoe
   }
 
@@ -277,9 +281,9 @@ export class Device {
 
   /**
    * Setter nanoe
-   * @param {number} value
+   * @param {NanoeMode} value
    */
-  public set nanoe(value: number) {
+  public set nanoe(value: NanoeMode) {
     this._nanoe = value
   }
 
@@ -293,9 +297,9 @@ export class Device {
 
   /**
    * Setter actualNanoe
-   * @param {number} value
+   * @param {NanoeMode} value
    */
-  public set actualNanoe(value: number) {
+  public set actualNanoe(value: NanoeMode) {
     this._actualNanoe = value
   }
 
@@ -346,4 +350,37 @@ export class Device {
   public set guid(value: string) {
     this._guid = value
   }
+
+  /**
+   * Getter insideTemperature
+   * @return {number}
+   */
+  public get insideTemperature(): number {
+    return this._insideTemperature
+  }
+
+  /**
+   * Setter insideTemperature
+   * @param {number} value
+   */
+  public set insideTemperature(value: number) {
+    this._insideTemperature = value
+  }
+
+  /**
+   * Getter outTemperature
+   * @return {number}
+   */
+  public get outTemperature(): number {
+    return this._outTemperature
+  }
+
+  /**
+   * Setter outTemperature
+   * @param {number} value
+   */
+  public set outTemperature(value: number) {
+    this._outTemperature = value
+  }
+
 }

@@ -55,3 +55,11 @@ export enum FanAutoMode {
   AirSwingLR = 3,
   AirSwingUD = 2,
 }
+
+export enum NanoeMode {
+  Unavailable = 0,
+  Off = 1,
+  On = 2,
+  ModeG = 3,
+  All = 4
+}
