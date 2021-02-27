@@ -5,6 +5,7 @@ export class ServiceError extends Error {
 
     constructor(message: string, code: number, httpCode: number) {
         super(message)
+        Object.setPrototypeOf(this, new.target.prototype);
         this.name = 'ServiceError'
         this._code = code
         this._httpCode = httpCode
