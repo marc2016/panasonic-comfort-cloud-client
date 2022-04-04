@@ -14,7 +14,7 @@ export class ComfortCloudClient {
   readonly urlPartGroup = '/device/group/'
   readonly urlPartDevice = '/deviceStatus/'
   readonly urlPartDeviceControl = '/deviceStatus/control'
-  readonly appVersion = '2.0.0'
+  readonly appVersion = '2.0.1'
   readonly userAgent = 'G-RAC'
   private axiosInstance: AxiosInstance
 
@@ -123,8 +123,8 @@ export class ComfortCloudClient {
       )
     }
     throw new ServiceError(
-      responseData.message,
-      responseData.code,
+      error.message,
+      errorResponse.code,
       errorResponse.status
     )
   }
