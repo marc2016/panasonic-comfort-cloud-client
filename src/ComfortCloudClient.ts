@@ -14,7 +14,7 @@ export class ComfortCloudClient {
   readonly urlPartGroup = '/device/group/'
   readonly urlPartDevice = '/deviceStatus/'
   readonly urlPartDeviceControl = '/deviceStatus/control'
-  readonly appVersion = '1.15.1'
+  readonly appVersion = '1.19.0'
   readonly userAgent = 'G-RAC'
   private axiosInstance: AxiosInstance
 
