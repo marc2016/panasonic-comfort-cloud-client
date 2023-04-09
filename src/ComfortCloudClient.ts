@@ -14,7 +14,7 @@ export class ComfortCloudClient {
   readonly urlPartGroup = '/device/group/'
   readonly urlPartDevice = '/deviceStatus/'
   readonly urlPartDeviceControl = '/deviceStatus/control'
-  readonly appVersion = '1.18.0'
+  readonly defaultAppVersion = '1.18.0'
   readonly userAgent = 'G-RAC'
   private axiosInstance: AxiosInstance
 
@@ -24,7 +24,7 @@ export class ComfortCloudClient {
     this._token = value
   }
 
-  constructor() {
+  constructor(appVersion?: string) {
     this.axiosInstance = axios.create({
       baseURL: this.baseUrl,
     })
@@ -38,9 +38,17 @@ export class ComfortCloudClient {
     this.axiosInstance.defaults.headers.common['Content-Type'] =
       'application/json'
     this.axiosInstance.defaults.headers.common['X-APP-TYPE'] = 0
-    this.axiosInstance.defaults.headers.common[
-      'X-APP-VERSION'
-    ] = this.appVersion
+    if(appVersion) {
+      this.axiosInstance.defaults.headers.common[
+        'X-APP-VERSION'
+        ] = appVersion
+    }
+    else {
+      this.axiosInstance.defaults.headers.common[
+        'X-APP-VERSION'
+      ] = this.defaultAppVersion
+    }
+    
     this.axiosInstance.defaults.headers.common['User-Agent'] = this.userAgent
   }
 
