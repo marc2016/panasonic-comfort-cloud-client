@@ -26,8 +26,6 @@ test('getGroups', async () => {
 })
 
 test('getDevice', async () => {
-  jest.setTimeout(20000)
-  const client = new ComfortCloudClient()
   await client.login(username, password, 6)
   const groups = await client.getGroups()
   if (groups.length > 0) {
@@ -37,11 +35,9 @@ test('getDevice', async () => {
     const device = await client.getDevice(firstDevice.guid)
     expect(device?.guid).toBe(firstDevice.guid)
   }
-})
+}, 20000)
 
 test('setDevice', async () => {
-  jest.setTimeout(20000)
-  const client = new ComfortCloudClient()
   await client.login(username, password, 6)
   const groups = await client.getGroups()
   if (groups.length > 0) {
@@ -59,4 +55,4 @@ test('setDevice', async () => {
       expect(newDevice?.temperatureSet).toBe(newTemp)
     }
   }
-})
+},20000)

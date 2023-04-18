@@ -100,7 +100,7 @@ export class ComfortCloudClient {
     return []
   }
 
-  async getDevice(id: string): Promise<Device | null> {
+  async getDevice(id: string, name?: string): Promise<Device | null> {
     try {
       const response = await this.axiosInstance.get(
         this.urlPartDevice + '/' + id,
@@ -113,8 +113,8 @@ export class ComfortCloudClient {
         const retDevice = new Device('', '')
         _.assign(retDevice, responseData.parameters)
 
-        retDevice.guid = responseData.deviceGuid
-        retDevice.name = responseData.deviceName
+        retDevice.guid = id
+        retDevice.name = name ?? ''
         return retDevice
       }
     } catch (error) {
