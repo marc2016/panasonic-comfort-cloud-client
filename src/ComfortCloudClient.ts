@@ -38,7 +38,7 @@ export class ComfortCloudClient {
     this.axiosInstance.defaults.headers.common['X-APP-TYPE'] = 0
     this.axiosInstance.defaults.headers.common['X-APP-TIMESTAMP'] = 0
     this.axiosInstance.defaults.headers.common['X-APP-NAME'] = 'Comfort Cloud'
-    this.axiosInstance.defaults.headers.common['X-CFC-API-KEY'] = 'Comfort Cloud'
+    this.axiosInstance.defaults.headers.common['X-CFC-API-KEY'] = 0
     this.axiosInstance.defaults.headers.common['User-Agent'] = 'G-RAC'
 
     if(appVersion) {
@@ -106,7 +106,7 @@ export class ComfortCloudClient {
   async getDevice(id: string, name?: string): Promise<Device | null> {
     try {
       const response = await this.axiosInstance.get(
-        this.urlPartDevice + '/' + id,
+        this.urlPartDevice + id,
         {
           headers: { 'X-User-Authorization': this._token },
         }

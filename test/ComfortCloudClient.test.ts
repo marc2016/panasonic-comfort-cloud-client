@@ -9,11 +9,11 @@ const username = auth.username
 const client = new ComfortCloudClient()
 
 test('login', async () => {
-  await client.login(username, password, 6)
+  await client.login(username, password)
 })
 
 test('getGroups', async () => {
-  await client.login(username, password, 6)
+  await client.login(username, password)
   const groups = await client.getGroups()
   if (groups.length > 0) {
     const firstGroup = groups[0]
@@ -26,7 +26,7 @@ test('getGroups', async () => {
 })
 
 test('getDevice', async () => {
-  await client.login(username, password, 6)
+  await client.login(username, password)
   const groups = await client.getGroups()
   if (groups.length > 0) {
     const firstGroup = groups[0]
@@ -38,7 +38,7 @@ test('getDevice', async () => {
 }, 20000)
 
 test('setDevice', async () => {
-  await client.login(username, password, 6)
+  await client.login(username, password)
   const groups = await client.getGroups()
   if (groups.length > 0) {
     const firstGroup = groups[0]
