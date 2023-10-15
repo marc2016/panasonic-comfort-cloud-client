@@ -1,4 +1,4 @@
-import axios, { AxiosInstance } from 'axios'
+import axios, { AxiosError, AxiosInstance } from 'axios'
 import * as https from 'https'
 import * as _ from 'lodash'
 import { LoginData } from './model/LoginData'
@@ -7,6 +7,7 @@ import { Device } from './model/Device'
 import { Group } from './model/Group'
 import { Parameters } from './model/Parameters'
 import { TokenExpiredError } from './model/TokenExpiredError'
+import { AdapterCommunicationError } from './model/AdapterCommunicationError'
 
 export class ComfortCloudClient {
   readonly baseUrl = 'https://accsmart.panasonic.com'
@@ -71,7 +72,7 @@ export class ComfortCloudClient {
         this._token = newToken
         return newToken
       }
-      throw new ServiceError(response.data.message, 0, response.status)
+      throw new ServiceError(response.data.message, -1, response.status)
     } catch (error) {
       this.handleError(error)
     }
@@ -127,21 +128,37 @@ export class ComfortCloudClient {
     return null
   }
 
-  private handleError(error: any): void {
-    const errorResponse = error.response
-    const responseData = errorResponse.data
-    if (responseData.code === '4100') {
-      throw new TokenExpiredError(
-        responseData.message,
-        responseData.code,
-        errorResponse.status
-      )
+  private handleError(error: unknown): void {
+    if (error instanceof AxiosError) {
+      let message: string
+      let code: number
+      if(error.response) {
+        code = error.response?.data.code
+        message = error.response?.data.message
+        switch (code) {
+          case 4100:
+            throw new TokenExpiredError(
+              error.message+'\n'+message,
+              code,
+              error.status ?? -1
+            )
+          case 5005:
+            throw new AdapterCommunicationError(
+              error.message+'\n'+message,
+              code,
+              error.status ?? -1
+            )
+          default:
+            throw new ServiceError(
+              error.message+'\n'+message,
+              code,
+              error.status ?? -1
+            )
+            break;
+        }
+      }
     }
-    throw new ServiceError(
-      error.message,
-      errorResponse.code,
-      errorResponse.status
-    )
+    throw error
   }
 
   async setDevice(device: Device): Promise<any> {
