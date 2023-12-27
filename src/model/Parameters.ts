@@ -7,7 +7,7 @@ import {
   FanAutoMode,
   FanSpeed,
   NanoeMode
-} from '../domain/enums'
+} from '../domain/enums.js'
 
 export interface Parameters {
   [key: string]: any

@@ -1,4 +1,4 @@
-import { ServiceError } from './ServiceError'
+import { ServiceError } from './ServiceError.js'
 
 export class TokenExpiredError extends ServiceError {
   constructor(message: string, code: number, httpCode: number) {

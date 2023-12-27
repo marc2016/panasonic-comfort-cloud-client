@@ -1,13 +1,13 @@
 import axios, { AxiosError, AxiosInstance } from 'axios'
 import * as https from 'https'
-import * as _ from 'lodash'
-import { LoginData } from './model/LoginData'
-import { ServiceError } from './model/ServiceError'
-import { Device } from './model/Device'
-import { Group } from './model/Group'
-import { Parameters } from './model/Parameters'
-import { TokenExpiredError } from './model/TokenExpiredError'
-import { AdapterCommunicationError } from './model/AdapterCommunicationError'
+import _ from 'lodash'
+import { LoginData } from './model/LoginData.js'
+import { ServiceError } from './model/ServiceError.js'
+import { Device } from './model/Device.js'
+import { Group } from './model/Group.js'
+import { Parameters } from './model/Parameters.js'
+import { TokenExpiredError } from './model/TokenExpiredError.js'
+import { AdapterCommunicationError } from './model/AdapterCommunicationError.js'
 
 export class ComfortCloudClient {
   readonly baseUrl = 'https://accsmart.panasonic.com'
@@ -15,7 +15,7 @@ export class ComfortCloudClient {
   readonly urlPartGroup = '/device/group/'
   readonly urlPartDevice = '/deviceStatus/'
   readonly urlPartDeviceControl = '/deviceStatus/control'
-  readonly defaultAppVersion = '1.18.0'
+  readonly defaultAppVersion = '1.19.1'
 
   private axiosInstance: AxiosInstance
 

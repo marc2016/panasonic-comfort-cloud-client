@@ -1,4 +1,4 @@
-import { Device } from "./Device"
+import { Device } from "./Device.js"
 
 export class Group {
     private _id: number

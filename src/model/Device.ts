@@ -9,8 +9,8 @@ import {
   EcoMode,
   FanAutoMode,
   NanoeMode
-} from '../domain/enums'
-import { Parameters } from './Parameters'
+} from '../domain/enums.js'
+import { Parameters } from './Parameters.js'
 
 /*
 {
