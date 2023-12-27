@@ -1,10 +1,10 @@
-import { ComfortCloudClient } from '../src/ComfortCloudClient'
-import { Group } from '../src/model/Group'
-import { Device } from '../src/model/Device'
+import { ComfortCloudClient } from '../src/ComfortCloudClient.js'
+import { Group } from '../src/model/Group.js'
+import { Device } from '../src/model/Device.js'
 import * as auth from './auth_data.json'
 
-const password = auth.password
-const username = auth.username
+const password = auth.default.password
+const username = auth.default.username
 
 const client = new ComfortCloudClient()
 
