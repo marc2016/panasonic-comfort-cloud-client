@@ -4,10 +4,9 @@ import { ComfortCloudClient } from './ComfortCloudClient.js'
 import { Group } from './model/Group.js'
 import { Device } from './model/Device.js'
 
-import inquirer from 'inquirer'
-import select, { Separator } from '@inquirer/select'
-import { forEach } from 'lodash'
-import { group } from 'console'
+import { input, useEffect } from '@inquirer/prompts'
+import password from '@inquirer/password'
+import select from '@inquirer/select'
 
 type Command = 'get-group' | 'get-device' | 'exit' | null
 
@@ -77,35 +76,24 @@ async function SelectGroup(): Promise<Group> {
 }
 
 async function GetDevice() {
-  const deviceGuid: string = await inquirer.prompt([
+  const deviceGuid: string = await input(
     {
-      type: 'input',
-      name: 'Guid',
       message: 'Guid of the device',
-    },
-  ])
+    }
+  )
   const device = await client.getDevice(deviceGuid)
   console.log(device, null, 2)
 }
 
 async function start() {
-  const answers = await inquirer.prompt([
-    {
-      type: 'input',
-      name: 'username',
-      message: 'Username',
-    },
-    {
-      type: 'password',
-      message: 'Password',
-      name: 'password',
-    },
-  ])
-  const username: string = answers.username
-  const password: string = answers.password
+  
+  const answers = {
+    username: await input({ message: 'Username' }),
+    password: await password({ message: 'Password' }),
+  }
 
   client = new ComfortCloudClient()
-  await client.login(username, password)
+  await client.login(answers.username, answers.password)
   console.log('Login successful.')
 
   
