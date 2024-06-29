@@ -1,6 +1,8 @@
-import axios, { AxiosError, AxiosInstance } from 'axios'
+import axios, { AxiosError, AxiosInstance, AxiosResponse } from 'axios'
 import * as https from 'https'
+import * as crypto from 'crypto'
 import _ from 'lodash'
+
 import { LoginData } from './model/LoginData.js'
 import { ServiceError } from './model/ServiceError.js'
 import { Device } from './model/Device.js'
@@ -8,6 +10,11 @@ import { Group } from './model/Group.js'
 import { Parameters } from './model/Parameters.js'
 import { TokenExpiredError } from './model/TokenExpiredError.js'
 import { AdapterCommunicationError } from './model/AdapterCommunicationError.js'
+import { DataMode } from './domain/enums.js'
+import { getDateForHistoryData } from './domain/helper.js'
+import { OAuthClient } from './OAuthClient.js'
+import { getBaseRequestHeaders } from './domain/apiHelper.js'
+import { promises } from 'dns'
 
 export class ComfortCloudClient {
   readonly baseUrl = 'https://accsmart.panasonic.com'
@@ -15,45 +22,24 @@ export class ComfortCloudClient {
   readonly urlPartGroup = '/device/group/'
   readonly urlPartDevice = '/deviceStatus/'
   readonly urlPartDeviceControl = '/deviceStatus/control'
-  readonly defaultAppVersion = '1.19.1'
+  readonly urlPartDeviceHistoryData = '/deviceHistoryData'
+  readonly defaultAppVersion = '1.20.1'
 
   private axiosInstance: AxiosInstance
+  private oauthClient: OAuthClient
 
-  private _token = ''
+  private appVersion: string | undefined = ''
 
-  set token(value: string) {
-    this._token = value
-  }
+  private token: string = ''
+  private clientId: string = ''
+  
 
   constructor(appVersion?: string) {
+    this.appVersion = appVersion
     this.axiosInstance = axios.create({
       baseURL: this.baseUrl,
     })
-    const agent = new https.Agent({
-      rejectUnauthorized: false,
-    })
-
-    this.axiosInstance.defaults.httpsAgent = agent
-    this.axiosInstance.defaults.headers.common['Accept'] = 'application/json; charset=UTF-8'
-    this.axiosInstance.defaults.headers.common['Content-Type'] = 'application/json'
-    this.axiosInstance.defaults.headers.common['X-APP-TYPE'] = 0
-    this.axiosInstance.defaults.headers.common['X-APP-TIMESTAMP'] = 0
-    this.axiosInstance.defaults.headers.common['X-APP-NAME'] = 'Comfort Cloud'
-    this.axiosInstance.defaults.headers.common['X-CFC-API-KEY'] = 0
-    this.axiosInstance.defaults.headers.common['User-Agent'] = 'G-RAC'
-
-    if(appVersion) {
-      this.axiosInstance.defaults.headers.common[
-        'X-APP-VERSION'
-        ] = appVersion
-    }
-    else {
-      this.axiosInstance.defaults.headers.common[
-        'X-APP-VERSION'
-      ] = this.defaultAppVersion
-    }
-    
-    
+    this.oauthClient = new OAuthClient(appVersion)
   }
 
   async login(
@@ -61,28 +47,46 @@ export class ComfortCloudClient {
     password: string,
     language?: number
   ): Promise<string> {
-    const loginData = new LoginData(username, password, language)
     try {
-      const response = await this.axiosInstance.post(
-        this.urlPartLogin,
-        loginData
-      )
-      if (response.status == 200) {
-        const newToken = response.data.uToken
-        this._token = newToken
-        return newToken
-      }
-      throw new ServiceError(response.data.message, -1, response.status)
+      const token = await this.oauthClient.oAuthProcess(username, password)
+      this.token = token
+      const clientId = await this.getClientId(token)
+      this.clientId = clientId
     } catch (error) {
       this.handleError(error)
     }
     return ''
   }
 
+  private async getClientId(token: string): Promise<string> {
+    const response = await this.axiosInstance.post(
+      '/auth/v2/login',
+      {
+        'language': 0,
+      },
+      {
+        headers: {
+          ...getBaseRequestHeaders(this.appVersion),
+          'X-User-Authorization-V2': 'Bearer ' + token,
+        },
+        validateStatus: status => (status >= 200 && status < 300) || status === 200,
+      }
+    )
+
+    const clientId = response.data.clientId;
+    
+    return clientId
+  }
+
   async getGroups(): Promise<Array<Group>> {
+
     try {
       const response = await this.axiosInstance.get(this.urlPartGroup, {
-        headers: { 'X-User-Authorization': this._token },
+        headers: {
+          ...getBaseRequestHeaders(this.appVersion),
+          'X-Client-Id': this.clientId,
+          'X-User-Authorization-V2': 'Bearer ' + this.token,
+        },
       })
       if (response.status == 200) {
         const groupsResponse = response.data.groupList
@@ -109,7 +113,11 @@ export class ComfortCloudClient {
       const response = await this.axiosInstance.get(
         this.urlPartDevice + id,
         {
-          headers: { 'X-User-Authorization': this._token },
+          headers: {
+            ...getBaseRequestHeaders(this.appVersion),
+            'X-Client-Id': this.clientId,
+            'X-User-Authorization-V2': 'Bearer ' + this.token,
+          },
         }
       )
       if (response.status == 200) {
@@ -175,10 +183,44 @@ export class ComfortCloudClient {
         this.urlPartDeviceControl,
         body,
         {
-          headers: { 'X-User-Authorization': this._token },
+          headers: {
+            ...getBaseRequestHeaders(this.appVersion),
+            'X-Client-Id': this.clientId,
+            'X-User-Authorization-V2': 'Bearer ' + this.token,
+          },
         }
       )
       return response
+    } catch (error) {
+      this.handleError(error)
+    }
+
+    return null
+  }
+
+  async getDeviceHistoryData(deviceGuid: string, date: Date, dataMode: DataMode, timezone: string = '+00:00') {
+    
+    const dateString = getDateForHistoryData(date)
+    const body = {
+      deviceGuid: deviceGuid,
+      dataMode: dataMode,
+      date: dateString,
+      osTimezone: timezone
+    }
+
+    try {
+      const response = await this.axiosInstance.post(
+        this.urlPartDeviceHistoryData,
+        body,
+        {
+          headers: {
+            ...getBaseRequestHeaders(this.appVersion),
+            'X-Client-Id': this.clientId,
+            'X-User-Authorization-V2': 'Bearer ' + this.token,
+          },
+        }
+      )
+      return response.data
     } catch (error) {
       this.handleError(error)
     }

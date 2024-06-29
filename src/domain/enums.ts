@@ -42,7 +42,7 @@ export enum FanSpeed {
   High = 5,
 }
 
-export enum dataMode {
+export enum DataMode {
   Day = 0,
   Week = 1,
   Month = 2,
