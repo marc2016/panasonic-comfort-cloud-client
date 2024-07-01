@@ -26,11 +26,10 @@ export class ComfortCloudClient {
   readonly defaultAppVersion = '1.20.1'
 
   private axiosInstance: AxiosInstance
-  private oauthClient: OAuthClient
+  public oauthClient: OAuthClient
 
   private appVersion: string | undefined = ''
 
-  private token: string = ''
   private clientId: string = ''
   
 
@@ -49,7 +48,6 @@ export class ComfortCloudClient {
   ): Promise<string> {
     try {
       const token = await this.oauthClient.oAuthProcess(username, password)
-      this.token = token
       const clientId = await this.getClientId(token)
       this.clientId = clientId
     } catch (error) {
@@ -85,7 +83,7 @@ export class ComfortCloudClient {
         headers: {
           ...getBaseRequestHeaders(this.appVersion),
           'X-Client-Id': this.clientId,
-          'X-User-Authorization-V2': 'Bearer ' + this.token,
+          'X-User-Authorization-V2': 'Bearer ' + this.oauthClient.token,
         },
       })
       if (response.status == 200) {
@@ -116,7 +114,7 @@ export class ComfortCloudClient {
           headers: {
             ...getBaseRequestHeaders(this.appVersion),
             'X-Client-Id': this.clientId,
-            'X-User-Authorization-V2': 'Bearer ' + this.token,
+            'X-User-Authorization-V2': 'Bearer ' + this.oauthClient.token,
           },
         }
       )
@@ -186,7 +184,7 @@ export class ComfortCloudClient {
           headers: {
             ...getBaseRequestHeaders(this.appVersion),
             'X-Client-Id': this.clientId,
-            'X-User-Authorization-V2': 'Bearer ' + this.token,
+            'X-User-Authorization-V2': 'Bearer ' + this.oauthClient.token,
           },
         }
       )
@@ -216,7 +214,7 @@ export class ComfortCloudClient {
           headers: {
             ...getBaseRequestHeaders(this.appVersion),
             'X-Client-Id': this.clientId,
-            'X-User-Authorization-V2': 'Bearer ' + this.token,
+            'X-User-Authorization-V2': 'Bearer ' + this.oauthClient.token,
           },
         }
       )

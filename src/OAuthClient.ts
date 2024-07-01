@@ -11,7 +11,8 @@ export class OAuthClient {
   private enableAutoRefresh: boolean = true
 
   private clientId: string = ''
-  private tokenRefresh: string = ''
+  public token: string = ''
+  public tokenRefresh: string = ''
 
   private readonly BASE_URL = 'https://authglb.digital.panasonic.com'
   private readonly CLIENT_ID = 'Xmy6xIYIitMxngjB2rHvlm6HSDNnaMJx'
@@ -52,6 +53,7 @@ export class OAuthClient {
 
       const [token, tokenRefresh] = await this.getNewToken(code, codeVerifier)
       this.tokenRefresh = tokenRefresh
+      this.token = token
 
       if(this.enableAutoRefresh)
         setTimeout(this.refreshToken.bind(this), 86300000);
@@ -199,9 +201,8 @@ export class OAuthClient {
         },
       }
     )
-    const token = response.data.access_token
-    const newTokenRefresh = response.data.refresh_token
-    return [token, newTokenRefresh]
+    this.token = response.data.access_token
+    this.tokenRefresh = response.data.refresh_token
   }
 
   private async loginRedirect(location: string): Promise<string|null> {

@@ -10,7 +10,7 @@ import select from '@inquirer/select'
 import { DataMode } from './domain/enums.js'
 import { OAuthClient } from './OAuthClient.js'
 
-type Command = 'get-group' | 'get-device' | 'exit' | null
+type Command = 'get-group' | 'get-device' | 'refresh-token' | 'print-tokens' | 'exit' | null
 type DeviceCommand = 'get-history' | 'print-device' | 'exit' | null
 
 let client: ComfortCloudClient
@@ -28,6 +28,16 @@ async function SelectCommand(): Promise<Command> {
         name: 'Get device',
         value: 'get-device',
         description: 'Get a device for a given guid',
+      },
+      {
+        name: 'Print tokens',
+        value: 'print-tokens',
+        description: 'Print both OAuth token',
+      },
+      {
+        name: 'Refresh token',
+        value: 'refresh-token',
+        description: 'Refresh the OAuth token',
       },
       {
         name: 'Exit',
@@ -150,6 +160,14 @@ async function start() {
           console.log(JSON.stringify(deviceOrGroup, null, 2))
         else
           await SelectDeviceCommand(deviceOrGroup)
+        break
+      case 'print-tokens':
+        console.log(`OAuth token: ${client.oauthClient.token}`)
+        console.log(`OAuth refresh token: ${client.oauthClient.tokenRefresh}`)
+        break 
+      case 'refresh-token':
+        await client.oauthClient.refreshToken()
+        console.log('Token refresh was successful.')
         break
       default:
         break
