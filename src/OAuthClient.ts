@@ -1,9 +1,8 @@
-import axios, { AxiosInstance, AxiosResponse } from "axios";
+import axios, { AxiosInstance, AxiosResponse } from "axios"
 import crypto from 'crypto'
-import { wrapper } from 'axios-cookiejar-support';
-import { CookieJar } from 'tough-cookie';
-import * as cheerio from 'cheerio';
-import { getBaseRequestHeaders } from "./domain/apiHelper";
+import { wrapper } from 'axios-cookiejar-support'
+import { CookieJar } from 'tough-cookie'
+import * as cheerio from 'cheerio'
 
 export class OAuthClient {
   private oauthClient: AxiosInstance
@@ -22,7 +21,7 @@ export class OAuthClient {
   constructor(appVersion?: string, enableAutoRefresh: boolean = true) {
     this.appVersion = appVersion
     this.enableAutoRefresh = enableAutoRefresh
-    const jar = new CookieJar();
+    const jar = new CookieJar()
     this.oauthClient = wrapper(axios.create({
       baseURL: this.BASE_URL,
       maxRedirects: 0,
@@ -56,7 +55,7 @@ export class OAuthClient {
       this.token = token
 
       if(this.enableAutoRefresh)
-        setTimeout(this.refreshToken.bind(this), 86300000);
+        setTimeout(this.refreshToken.bind(this), 86300000)
 
       return token
   }
@@ -65,9 +64,9 @@ export class OAuthClient {
     let location: string = ''
     let state: string | null = ''
     const randomState = this.generateRandomString(20)
-    const hash = crypto.createHash('sha256').update(codeVerifier, 'utf8').digest();
-    const base64String = Buffer.from(hash).toString('base64').replace(/=/g, '').replace(/\+/g, '-').replace(/\//g, '_');
-    const codeChallenge: string = base64String;
+    const hash = crypto.createHash('sha256').update(codeVerifier, 'utf8').digest()
+    const base64String = Buffer.from(hash).toString('base64').replace(/=/g, '').replace(/\+/g, '-').replace(/\//g, '_')
+    const codeChallenge: string = base64String
     
     const response = await this.oauthClient.get(
       '/authorize',
@@ -101,8 +100,8 @@ export class OAuthClient {
     )
     const csrf = (response.headers['set-cookie'] as string[])
       .find(cookie => cookie.includes('_csrf'))
-      ?.match(new RegExp('^_csrf=(.+?);'))
-      ?.[1];
+      ?.match(new RegExp('^_csrf=(.+?)'))
+      ?.[1]
      return csrf
   }
 
@@ -132,12 +131,12 @@ export class OAuthClient {
         validateStatus: status => (status >= 200 && status < 300) || status === 302,
       })
 
-      const $ = cheerio.load(response.data);
-      const elements = $('input[type="hidden"]');
+      const $ = cheerio.load(response.data)
+      const elements = $('input[type="hidden"]')
 
       const parameters: any = {}
       for (const el of elements) {
-        parameters[el.attribs.name] = el.attribs.value;
+        parameters[el.attribs.name] = el.attribs.value
       }
 
       return parameters
@@ -212,20 +211,20 @@ export class OAuthClient {
         validateStatus: status => (status >= 200 && status < 300) || status === 302,
       }
     )
-    const code = this.getQuerystringParameterFromHeaderEntryUrl(response, 'location', 'code', 'https://authglb.digital.panasonic.com');
+    const code = this.getQuerystringParameterFromHeaderEntryUrl(response, 'location', 'code', 'https://authglb.digital.panasonic.com')
     return code
   }
 
   
 
   generateRandomString(length: number): string {
-    let result = '';
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    const charactersLength = characters.length;
+    let result = ''
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+    const charactersLength = characters.length
     for (let i = 0; i < length; i++) {
-        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+        result += characters.charAt(Math.floor(Math.random() * charactersLength))
     }
-    return result;
+    return result
   }
 
   
@@ -233,9 +232,9 @@ export class OAuthClient {
   
 
   getQuerystringParameterFromHeaderEntryUrl(response: AxiosResponse, headerEntry: string, querystringParameter: string, baseUrl: string): string | null {
-    const headerEntryValue = response.headers[headerEntry];
-    const parsedUrl = new URL(headerEntryValue.startsWith('/') ? baseUrl + headerEntryValue : headerEntryValue);
-    const params = new URLSearchParams(parsedUrl.search);
-    return params.get(querystringParameter) || null;
+    const headerEntryValue = response.headers[headerEntry]
+    const parsedUrl = new URL(headerEntryValue.startsWith('/') ? baseUrl + headerEntryValue : headerEntryValue)
+    const params = new URLSearchParams(parsedUrl.search)
+    return params.get(querystringParameter) || null
   }
 }
