@@ -202,6 +202,9 @@ export class OAuthClient {
     )
     this.token = response.data.access_token
     this.tokenRefresh = response.data.refresh_token
+
+    if(this.enableAutoRefresh)
+      setTimeout(this.refreshToken.bind(this), 86300000)
   }
 
   private async loginRedirect(location: string): Promise<string|null> {
