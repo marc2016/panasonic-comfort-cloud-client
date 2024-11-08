@@ -11,10 +11,11 @@ import { Parameters } from './model/Parameters.js'
 import { TokenExpiredError } from './model/TokenExpiredError.js'
 import { AdapterCommunicationError } from './model/AdapterCommunicationError.js'
 import { DataMode } from './domain/enums.js'
-import { getDateForHistoryData } from './domain/helper.js'
+import { getDateForHistoryData, getFormattedTimestamp } from './domain/helper.js'
 import { OAuthClient } from './OAuthClient.js'
 import { getBaseRequestHeaders } from './domain/apiHelper.js'
 import { promises } from 'dns'
+import { CFCGenerator } from './CFCGenerator.js'
 
 export class ComfortCloudClient {
   readonly baseUrl = 'https://accsmart.panasonic.com'
@@ -23,7 +24,7 @@ export class ComfortCloudClient {
   readonly urlPartDevice = '/deviceStatus/'
   readonly urlPartDeviceControl = '/deviceStatus/control'
   readonly urlPartDeviceHistoryData = '/deviceHistoryData'
-  readonly defaultAppVersion = '1.20.1'
+  readonly defaultAppVersion = '1.22.0'
 
   private axiosInstance: AxiosInstance
   public oauthClient: OAuthClient
@@ -35,6 +36,8 @@ export class ComfortCloudClient {
 
   constructor(appVersion?: string) {
     this.appVersion = appVersion
+    if(!this.appVersion)
+      this.appVersion = this.defaultAppVersion
     this.axiosInstance = axios.create({
       baseURL: this.baseUrl,
     })
@@ -64,7 +67,7 @@ export class ComfortCloudClient {
       },
       {
         headers: {
-          ...getBaseRequestHeaders(this.appVersion),
+          ...getBaseRequestHeaders(this.appVersion, token),
           'X-User-Authorization-V2': 'Bearer ' + token,
         },
         validateStatus: status => (status >= 200 && status < 300) || status === 200,
@@ -81,7 +84,7 @@ export class ComfortCloudClient {
     try {
       const response = await this.axiosInstance.get(this.urlPartGroup, {
         headers: {
-          ...getBaseRequestHeaders(this.appVersion),
+          ...getBaseRequestHeaders(this.appVersion, this.oauthClient.token),
           'X-Client-Id': this.clientId,
           'X-User-Authorization-V2': 'Bearer ' + this.oauthClient.token,
         },
@@ -112,7 +115,7 @@ export class ComfortCloudClient {
         this.urlPartDevice + id,
         {
           headers: {
-            ...getBaseRequestHeaders(this.appVersion),
+            ...getBaseRequestHeaders(this.appVersion, this.oauthClient.token),
             'X-Client-Id': this.clientId,
             'X-User-Authorization-V2': 'Bearer ' + this.oauthClient.token,
           },
@@ -182,7 +185,7 @@ export class ComfortCloudClient {
         body,
         {
           headers: {
-            ...getBaseRequestHeaders(this.appVersion),
+            ...getBaseRequestHeaders(this.appVersion, this.oauthClient.token),
             'X-Client-Id': this.clientId,
             'X-User-Authorization-V2': 'Bearer ' + this.oauthClient.token,
           },
@@ -212,7 +215,7 @@ export class ComfortCloudClient {
         body,
         {
           headers: {
-            ...getBaseRequestHeaders(this.appVersion),
+            ...getBaseRequestHeaders(this.appVersion, this.oauthClient.token),
             'X-Client-Id': this.clientId,
             'X-User-Authorization-V2': 'Bearer ' + this.oauthClient.token,
           },
