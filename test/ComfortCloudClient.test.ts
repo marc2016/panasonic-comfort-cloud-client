@@ -10,7 +10,21 @@ const client = new ComfortCloudClient()
 
 test('login', async () => {
   await client.login(username, password)
-})
+}, 20000)
+
+test('refreshToken', async () => {
+  const clientLogin = new ComfortCloudClient()
+  await clientLogin.login(username, password)
+  
+  expect(clientLogin.oauthClient.token).not.toBeNull()
+  expect(clientLogin.oauthClient.tokenRefresh).not.toBeNull()
+
+  const clientRefreshToken = new ComfortCloudClient()
+  await clientRefreshToken.login('', '', clientLogin.oauthClient.tokenRefresh)
+
+  expect(clientRefreshToken.oauthClient.token).not.toBeNull()
+  expect(clientRefreshToken.oauthClient.tokenRefresh).not.toBeNull()
+}, 20000)
 
 test('getGroups', async () => {
   await client.login(username, password)
@@ -23,7 +37,7 @@ test('getGroups', async () => {
       expect(firstDevice instanceof Device).toBeTruthy
     }
   }
-})
+}, 20000)
 
 test('getDevice', async () => {
   await client.login(username, password)

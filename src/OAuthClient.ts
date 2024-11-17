@@ -183,13 +183,13 @@ export class OAuthClient {
     return [token, tokenRefresh]
   }
 
-  public async refreshToken() {
+  public async refreshToken(tokenRefresh: string = this.tokenRefresh): Promise<string | null> {
     const response = await this.oauthClient.post(
       '/oauth/token',
       {
         'scope': 'openid offline_access comfortcloud.control a2w.control',
         'client_id': this.CLIENT_ID,
-        'refresh_token': this.tokenRefresh,
+        'refresh_token': tokenRefresh,
         'grant_type': 'refresh_token',
       },
       {
@@ -200,11 +200,17 @@ export class OAuthClient {
         },
       }
     )
+
+    if(response.status != 200)
+      return null
+
     this.token = response.data.access_token
     this.tokenRefresh = response.data.refresh_token
 
     if(this.enableAutoRefresh)
       setTimeout(this.refreshToken.bind(this), 86300000)
+
+    return this.token
   }
 
   private async loginRedirect(location: string): Promise<string|null> {
