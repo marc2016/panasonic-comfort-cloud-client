@@ -47,9 +47,19 @@ export class ComfortCloudClient {
   async login(
     username: string,
     password: string,
-    language?: number
+    refreshToken?: string
   ): Promise<string> {
     try {
+      if(refreshToken) {
+        const token = await this.oauthClient.refreshToken(refreshToken)
+        if(token) {
+          const clientId = await this.getClientId(token)
+          this.clientId = clientId
+
+          return ''
+        }
+      }
+
       const token = await this.oauthClient.oAuthProcess(username, password)
       const clientId = await this.getClientId(token)
       this.clientId = clientId
