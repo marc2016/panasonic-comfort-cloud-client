@@ -78,7 +78,7 @@ test('Device class', async () => {
     operate: 'On'
   })
 
-  device.operationMode = 'Cool'
+  device.operationMode = OperationMode.Cool
   device.fanSpeed = 'HighMid'
   device.temperatureSet = 20
 
