@@ -2,6 +2,7 @@ import { ComfortCloudClient } from '../src/ComfortCloudClient.js'
 import { Group } from '../src/model/Group.js'
 import { Device } from '../src/model/Device.js'
 import * as auth from './auth_data.json'
+import { AirSwingUD, FanSpeed, OperationMode, Power } from '../src/index.js'
 
 const password = auth.password
 const username = auth.username
@@ -70,3 +71,60 @@ test('setDevice', async () => {
     }
   }
 },20000)
+
+test('Device class', async () => {
+  const device = new Device('', '', { 
+    airSwingUD: AirSwingUD.DownMid, 
+    operate: 'On'
+  })
+
+  device.operationMode = 'Cool'
+  device.fanSpeed = 'HighMid'
+  device.temperatureSet = 20
+
+  expect(device.operate).toBe(Power.On)
+  expect(device.airSwingUD).toBe(AirSwingUD.DownMid)
+  expect(device.operationMode).toBe(OperationMode.Cool)
+  expect(device.fanSpeed).toBe(FanSpeed.HighMid)
+  expect(device.temperatureSet).toBe(20)
+
+  const json = device.toJSON()
+
+  expect(json).toMatchObject({
+    operate: 'On',
+    operationMode: 'Cool',
+    fanSpeed: 'HighMid',
+    airSwingUD: 'DownMid',
+    temperatureSet: 20
+  })
+
+  expect(JSON.parse(JSON.stringify(device))).toMatchObject({
+    operate: 'On',
+    operationMode: 'Cool',
+    fanSpeed: 'HighMid',
+    airSwingUD: 'DownMid',
+    temperatureSet: 20
+  })
+
+  const secondDevice = new Device('', '', device)
+
+  expect(secondDevice).toMatchObject(device)
+
+  secondDevice.operationMode = 'Heat'
+
+  expect(secondDevice).not.toMatchObject(device)
+
+  expect(secondDevice.operate).toBe(Power.On)
+  expect(secondDevice.airSwingUD).toBe(AirSwingUD.DownMid)
+  expect(secondDevice.operationMode).toBe(OperationMode.Heat)
+  expect(secondDevice.fanSpeed).toBe(FanSpeed.HighMid)
+  expect(secondDevice.temperatureSet).toBe(20)
+
+  expect(secondDevice.toJSON()).toMatchObject({
+    operate: 'On',
+    operationMode: 'Heat',
+    fanSpeed: 'HighMid',
+    airSwingUD: 'DownMid',
+    temperatureSet: 20
+  })
+})
