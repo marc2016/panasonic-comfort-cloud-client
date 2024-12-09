@@ -55,6 +55,8 @@ import { Parameters } from './Parameters.js'
                 }
 */
 
+type ClassProperties<T> = Partial<Record<keyof T, string | number | boolean>>
+
 export class Device {
   private _guid: string
   private _name: string
@@ -75,9 +77,11 @@ export class Device {
   private _insideTemperature = 0
   private _outTemperature = 0
 
-  constructor(guid: string, name: string) {
+  constructor(guid: string, name: string, parameters: Partial<Device> | Partial<ClassProperties<Device>> = {}) {
     this._guid = guid
     this._name = name
+
+    Object.assign(this, parameters)
   }
 
   public get parameters(): Parameters {
@@ -211,16 +215,26 @@ export class Device {
    * Setter operate
    * @param {Power} value
    */
-  public set operate(value: Power) {
-    this._operate = value
+  public set operate(value: Power | keyof typeof Power) {
+    if (typeof value === 'string') {
+        if(Device.isEnumKey(value, Power))
+          this._operate = Power[value]
+    } else {
+      this._operate = value
+    }
   }
 
   /**
    * Setter operationMode
    * @param {OperationMode} value
    */
-  public set operationMode(value: OperationMode) {
-    this._operationMode = value
+  public set operationMode(value: OperationMode | keyof typeof OperationMode) {
+    if (typeof value === 'string') {
+      if(Device.isEnumKey(value, OperationMode))
+        this._operationMode = OperationMode[value]
+    } else {
+      this._operationMode = value
+    }
   }
 
   /**
@@ -235,40 +249,65 @@ export class Device {
    * Setter fanSpeed
    * @param {FanSpeed} value
    */
-  public set fanSpeed(value: FanSpeed) {
-    this._fanSpeed = value
+  public set fanSpeed(value: FanSpeed | keyof typeof FanSpeed) {
+    if (typeof value === 'string') {
+      if(Device.isEnumKey(value, FanSpeed))
+        this._fanSpeed = FanSpeed[value]
+    } else {
+      this._fanSpeed = value
+    }
   }
 
   /**
    * Setter fanAutoMode
    * @param {FanAutoMode} value
    */
-  public set fanAutoMode(value: FanAutoMode) {
-    this._fanAutoMode = value
+  public set fanAutoMode(value: FanAutoMode | keyof typeof FanAutoMode) {
+    if (typeof value === 'string') {
+      if(Device.isEnumKey(value, FanAutoMode))
+        this._fanAutoMode = FanAutoMode[value]
+    } else {
+      this._fanAutoMode = value
+    }
   }
 
   /**
    * Setter airSwingLR
    * @param {AirSwingLR} value
    */
-  public set airSwingLR(value: AirSwingLR) {
-    this._airSwingLR = value
+  public set airSwingLR(value: AirSwingLR | keyof typeof AirSwingLR) {
+    if (typeof value === 'string') {
+      if(Device.isEnumKey(value, AirSwingLR))
+        this._airSwingLR = AirSwingLR[value]
+    } else {
+      this._airSwingLR = value
+    }
   }
 
   /**
    * Setter airSwingUD
    * @param {AirSwingUD} value
    */
-  public set airSwingUD(value: AirSwingUD) {
-    this._airSwingUD = value
+  public set airSwingUD(value: AirSwingUD | keyof typeof AirSwingUD) {
+    if (typeof value === 'string') {
+      if(Device.isEnumKey(value, AirSwingUD))
+        this._airSwingUD = AirSwingUD[value]
+    } else {
+      this._airSwingUD = value
+    }
   }
 
   /**
    * Setter ecoMode
    * @param {EcoMode} value
    */
-  public set ecoMode(value: EcoMode) {
-    this._ecoMode = value
+  public set ecoMode(value: EcoMode | keyof typeof EcoMode) {
+    if (typeof value === 'string') {
+      if(Device.isEnumKey(value, EcoMode))
+        this._ecoMode = EcoMode[value]
+    } else {
+      this._ecoMode = value
+    }
   }
 
   /**
@@ -283,8 +322,13 @@ export class Device {
    * Setter nanoe
    * @param {NanoeMode} value
    */
-  public set nanoe(value: NanoeMode) {
-    this._nanoe = value
+  public set nanoe(value: NanoeMode | keyof typeof NanoeMode) {
+    if (typeof value === 'string') {
+      if(Device.isEnumKey(value, NanoeMode))
+        this._nanoe = NanoeMode[value]
+    } else {
+      this._nanoe = value
+    }
   }
 
   /**
@@ -299,8 +343,13 @@ export class Device {
    * Setter actualNanoe
    * @param {NanoeMode} value
    */
-  public set actualNanoe(value: NanoeMode) {
-    this._actualNanoe = value
+  public set actualNanoe(value: NanoeMode | keyof typeof NanoeMode) {
+    if (typeof value === 'string') {
+      if(Device.isEnumKey(value, NanoeMode))
+        this._actualNanoe = NanoeMode[value]
+    } else {
+      this._actualNanoe = value
+    }
   }
 
   /**
@@ -383,4 +432,39 @@ export class Device {
     this._outTemperature = value
   }
 
+  toJSON() {
+    return {
+      guid: this.guid,
+      name: this.name,
+      operate: Power[this.operate],
+      operationMode: OperationMode[this.operationMode],
+      temperatureSet: this.temperatureSet,
+      fanSpeed: FanSpeed[this.fanSpeed],
+      fanAutoMode: FanAutoMode[this.fanAutoMode],
+      airSwingLR: AirSwingLR[this.airSwingLR],
+      airSwingUD: AirSwingUD[this.airSwingUD],
+      ecoMode: EcoMode[this.ecoMode],
+      ecoNavi: this.ecoNavi,
+      nanoe: NanoeMode[this.nanoe],
+      iAuto: this.iAuto,
+      actualNanoe: this.actualNanoe,
+      airDirection:  this.airDirection,
+      ecoFunctionData: this.ecoFunctionData,
+      insideTemperature: this.insideTemperature,
+      outTemperature: this.outTemperature
+    }
+  }
+
+  /**
+   * Type guard to check if a string is a valid key of an enum
+   * @param value The string value to check
+   * @param enumType The enum type to check against
+   * @returns True if the string is a valid enum key
+   */
+  static isEnumKey<T extends { [key: string]: string | number }>(
+    value: string,
+    enumType: T
+  ): value is Extract<keyof T, string>  {
+    return Object.keys(enumType).includes(value)
+  }  
 }

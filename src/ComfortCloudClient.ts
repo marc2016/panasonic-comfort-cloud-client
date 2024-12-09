@@ -1,7 +1,6 @@
 import axios, { AxiosError, AxiosInstance, AxiosResponse } from 'axios'
 import * as https from 'https'
 import * as crypto from 'crypto'
-import _ from 'lodash'
 
 import { LoginData } from './model/LoginData.js'
 import { ServiceError } from './model/ServiceError.js'
@@ -101,16 +100,18 @@ export class ComfortCloudClient {
       })
       if (response.status == 200) {
         const groupsResponse = response.data.groupList
-        const groups = _.map(groupsResponse, (element) => {
-          const devices = _.map(element.deviceList, (device) => {
-            const retDevice = device.parameters as Device
-            retDevice.guid = device.deviceGuid
-            retDevice.name = device.deviceName
-            return retDevice
+
+        if(Array.isArray(groupsResponse)) {
+          const groups = Array.from(groupsResponse).map((element: any) => {
+            const devices = Array.isArray(element.deviceList) ? element.deviceList.map((device: any) => 
+              new Device(device.deviceGuid, device.deviceName, device.parameters)
+            ) : []
+
+            return new Group(element.groupId, element.groupName, devices)
           })
-          return new Group(element.groupId, element.groupName, devices)
-        })
-        return groups
+
+          return groups
+        }
       }
     } catch (error) {
       this.handleError(error)
@@ -133,11 +134,8 @@ export class ComfortCloudClient {
       )
       if (response.status == 200) {
         const responseData = response.data
-        const retDevice = new Device('', '')
-        _.assign(retDevice, responseData.parameters)
+        const retDevice = new Device(id, name ?? '', responseData.parameters)
 
-        retDevice.guid = id
-        retDevice.name = name ?? ''
         return retDevice
       }
     } catch (error) {
