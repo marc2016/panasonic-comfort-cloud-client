@@ -27,7 +27,7 @@ export class Group {
         return {
             id: this._id,
             name: this._name,
-            devices: this._devices.map((device) => device.toJSON())
+            devices: this._devices
         }
     }
 }
