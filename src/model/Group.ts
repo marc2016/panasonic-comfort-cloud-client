@@ -22,4 +22,12 @@ export class Group {
     get name(): string {
         return this._name
     }
+
+    toJSON(): any {
+        return {
+            id: this._id,
+            name: this._name,
+            devices: this._devices
+        }
+    }
 }
