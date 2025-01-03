@@ -95,7 +95,7 @@ async function GetDevice() {
     }
   )
   const device = await client.getDevice(deviceGuid)
-  console.log(device, null, 2)
+  console.log(JSON.stringify(device, null, 2))
 }
 
 async function SelectDeviceCommand(device: Device) {
