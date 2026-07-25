@@ -4,6 +4,13 @@ import { wrapper } from 'axios-cookiejar-support'
 import { CookieJar } from 'tough-cookie'
 import * as cheerio from 'cheerio'
 
+declare module 'axios' {
+  interface CreateAxiosDefaults {
+    jar?: CookieJar
+  }
+}
+
+
 export class OAuthClient {
   private oauthClient: AxiosInstance
   private appVersion: string | undefined = ''

@@ -1,6 +1,10 @@
 {
     "transform": {
-        "^.+\\.(t|j)sx?$": "ts-jest"
+        "^.+\\.(t|j)sx?$": ["ts-jest", {
+            "diagnostics": {
+                "ignoreCodes": [151002]
+            }
+        }]
     },
     "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
     "modulePathIgnorePatterns": [
