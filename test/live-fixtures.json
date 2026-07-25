@@ -1,0 +1,1387 @@
+{
+  "mockGroupResponse": [
+    {
+      "_id": 12345,
+      "_name": "Anon Group",
+      "_devices": [
+        {
+          "operate": 0,
+          "operationMode": 2,
+          "temperatureSet": 24,
+          "fanSpeed": 0,
+          "fanAutoMode": 0,
+          "airSwingLR": 2,
+          "airSwingUD": 0,
+          "ecoFunctionData": 0,
+          "ecoMode": 0,
+          "ecoNavi": 1,
+          "nanoe": 0,
+          "iAuto": 0,
+          "airDirection": 0,
+          "lastSettingMode": 0,
+          "airQuality": 0,
+          "guid": "anon-guid-1",
+          "name": "Anon Device 1"
+        },
+        {
+          "operate": 0,
+          "operationMode": 0,
+          "temperatureSet": 24,
+          "fanSpeed": 0,
+          "fanAutoMode": 1,
+          "airSwingLR": 0,
+          "airSwingUD": 0,
+          "ecoFunctionData": 0,
+          "ecoMode": 0,
+          "ecoNavi": 1,
+          "nanoe": 0,
+          "iAuto": 0,
+          "airDirection": 0,
+          "lastSettingMode": 0,
+          "airQuality": 0,
+          "guid": "anon-guid-2",
+          "name": "Anon Device 2"
+        },
+        {
+          "operate": 0,
+          "operationMode": 2,
+          "temperatureSet": 18,
+          "fanSpeed": 0,
+          "fanAutoMode": 0,
+          "airSwingLR": 2,
+          "airSwingUD": 0,
+          "ecoFunctionData": 0,
+          "ecoMode": 0,
+          "ecoNavi": 1,
+          "nanoe": 0,
+          "iAuto": 0,
+          "airDirection": 0,
+          "lastSettingMode": 0,
+          "airQuality": 0,
+          "guid": "anon-guid-3",
+          "name": "Anon Device 3"
+        },
+        {
+          "operate": 0,
+          "operationMode": 0,
+          "temperatureSet": 18,
+          "fanSpeed": 0,
+          "fanAutoMode": 0,
+          "airSwingLR": 2,
+          "airSwingUD": 0,
+          "ecoFunctionData": 0,
+          "ecoMode": 0,
+          "ecoNavi": 1,
+          "nanoe": 0,
+          "iAuto": 0,
+          "airDirection": 0,
+          "lastSettingMode": 0,
+          "airQuality": 0,
+          "guid": "anon-guid-4",
+          "name": "Anon Device 4"
+        },
+        {
+          "operate": 0,
+          "operationMode": 2,
+          "temperatureSet": 22,
+          "fanSpeed": 0,
+          "fanAutoMode": 0,
+          "airSwingLR": 2,
+          "airSwingUD": 0,
+          "ecoFunctionData": 0,
+          "ecoMode": 0,
+          "ecoNavi": 1,
+          "nanoe": 0,
+          "iAuto": 0,
+          "airDirection": 0,
+          "lastSettingMode": 0,
+          "airQuality": 0,
+          "guid": "anon-guid-5",
+          "name": "Anon Device 5"
+        }
+      ]
+    }
+  ],
+  "mockDeviceResponses": {
+    "anon-guid-1": {
+      "_guid": "anon-guid-1",
+      "_name": "",
+      "_operate": 0,
+      "_operationMode": 2,
+      "_temperatureSet": 24,
+      "_fanSpeed": 0,
+      "_fanAutoMode": 0,
+      "_airSwingLR": 2,
+      "_airSwingUD": 0,
+      "_ecoMode": 0,
+      "_actualNanoe": 0,
+      "_ecoNavi": 1,
+      "_nanoe": 0,
+      "_iAuto": 0,
+      "_airDirection": 0,
+      "_ecoFunctionData": 0,
+      "_insideTemperature": 126,
+      "_outTemperature": 126,
+      "insideCleaning": 0,
+      "fireplace": 0,
+      "lastSettingMode": 0,
+      "airQuality": 0
+    },
+    "anon-guid-2": {
+      "_guid": "anon-guid-2",
+      "_name": "",
+      "_operate": 0,
+      "_operationMode": 0,
+      "_temperatureSet": 24,
+      "_fanSpeed": 0,
+      "_fanAutoMode": 1,
+      "_airSwingLR": 0,
+      "_airSwingUD": 0,
+      "_ecoMode": 0,
+      "_actualNanoe": 0,
+      "_ecoNavi": 1,
+      "_nanoe": 0,
+      "_iAuto": 0,
+      "_airDirection": 0,
+      "_ecoFunctionData": 0,
+      "_insideTemperature": 126,
+      "_outTemperature": 126,
+      "insideCleaning": 0,
+      "fireplace": 0,
+      "lastSettingMode": 0,
+      "airQuality": 0
+    },
+    "anon-guid-3": {
+      "_guid": "anon-guid-3",
+      "_name": "",
+      "_operate": 0,
+      "_operationMode": 2,
+      "_temperatureSet": 18,
+      "_fanSpeed": 0,
+      "_fanAutoMode": 0,
+      "_airSwingLR": 2,
+      "_airSwingUD": 0,
+      "_ecoMode": 0,
+      "_actualNanoe": 0,
+      "_ecoNavi": 1,
+      "_nanoe": 0,
+      "_iAuto": 0,
+      "_airDirection": 0,
+      "_ecoFunctionData": 0,
+      "_insideTemperature": 126,
+      "_outTemperature": 126,
+      "insideCleaning": 0,
+      "fireplace": 0,
+      "lastSettingMode": 0,
+      "airQuality": 0
+    },
+    "anon-guid-4": {
+      "_guid": "anon-guid-4",
+      "_name": "",
+      "_operate": 0,
+      "_operationMode": 0,
+      "_temperatureSet": 18,
+      "_fanSpeed": 0,
+      "_fanAutoMode": 0,
+      "_airSwingLR": 2,
+      "_airSwingUD": 0,
+      "_ecoMode": 0,
+      "_actualNanoe": 0,
+      "_ecoNavi": 1,
+      "_nanoe": 0,
+      "_iAuto": 0,
+      "_airDirection": 0,
+      "_ecoFunctionData": 0,
+      "_insideTemperature": 126,
+      "_outTemperature": 126,
+      "insideCleaning": 0,
+      "fireplace": 0,
+      "lastSettingMode": 0,
+      "airQuality": 0
+    },
+    "anon-guid-5": {
+      "_guid": "anon-guid-5",
+      "_name": "",
+      "_operate": 0,
+      "_operationMode": 2,
+      "_temperatureSet": 22,
+      "_fanSpeed": 0,
+      "_fanAutoMode": 0,
+      "_airSwingLR": 2,
+      "_airSwingUD": 0,
+      "_ecoMode": 0,
+      "_actualNanoe": 0,
+      "_ecoNavi": 1,
+      "_nanoe": 0,
+      "_iAuto": 0,
+      "_airDirection": 0,
+      "_ecoFunctionData": 0,
+      "_insideTemperature": 126,
+      "_outTemperature": 126,
+      "insideCleaning": 0,
+      "fireplace": 0,
+      "lastSettingMode": 0,
+      "airQuality": 0
+    }
+  },
+  "mockHistoryResponses": {
+    "anon-guid-1": {
+      "temperatureUnit": 0,
+      "deviceRegisterTime": "20190131",
+      "historyDataList": [
+        {
+          "dataTime": "20260725 00",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": 0.017,
+          "cost": 0.0064600000000000005,
+          "heatConsumptionRate": 0,
+          "coolConsumptionRate": 0,
+          "heatCostRate": 0,
+          "coolCostRate": 0
+        },
+        {
+          "dataTime": "20260725 01",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": 0.018000000000000002,
+          "cost": 0.006840000000000001,
+          "heatConsumptionRate": 0,
+          "coolConsumptionRate": 0,
+          "heatCostRate": 0,
+          "coolCostRate": 0
+        },
+        {
+          "dataTime": "20260725 02",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": 0.016,
+          "cost": 0.00608,
+          "heatConsumptionRate": 0,
+          "coolConsumptionRate": 0,
+          "heatCostRate": 0,
+          "coolCostRate": 0
+        },
+        {
+          "dataTime": "20260725 03",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": 0.018000000000000002,
+          "cost": 0.006840000000000001,
+          "heatConsumptionRate": 0,
+          "coolConsumptionRate": 0,
+          "heatCostRate": 0,
+          "coolCostRate": 0
+        },
+        {
+          "dataTime": "20260725 04",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": 0.008,
+          "cost": 0.00304,
+          "heatConsumptionRate": 0,
+          "coolConsumptionRate": 0,
+          "heatCostRate": 0,
+          "coolCostRate": 0
+        },
+        {
+          "dataTime": "20260725 05",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": 0.008,
+          "cost": 0.00304,
+          "heatConsumptionRate": 0,
+          "coolConsumptionRate": 0,
+          "heatCostRate": 0,
+          "coolCostRate": 0
+        },
+        {
+          "dataTime": "20260725 06",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": 0.021,
+          "cost": 0.007980000000000001,
+          "heatConsumptionRate": 0,
+          "coolConsumptionRate": 0,
+          "heatCostRate": 0,
+          "coolCostRate": 0
+        },
+        {
+          "dataTime": "20260725 07",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": 0.032,
+          "cost": 0.01216,
+          "heatConsumptionRate": 0,
+          "coolConsumptionRate": 0,
+          "heatCostRate": 0,
+          "coolCostRate": 0
+        },
+        {
+          "dataTime": "20260725 08",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": 0.032,
+          "cost": 0.01216,
+          "heatConsumptionRate": 0,
+          "coolConsumptionRate": 0,
+          "heatCostRate": 0,
+          "coolCostRate": 0
+        },
+        {
+          "dataTime": "20260725 09",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": 0.032,
+          "cost": 0.01216,
+          "heatConsumptionRate": 0,
+          "coolConsumptionRate": 0,
+          "heatCostRate": 0,
+          "coolCostRate": 0
+        },
+        {
+          "dataTime": "20260725 10",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": 0.01,
+          "cost": 0.0038000000000000004,
+          "heatConsumptionRate": 0,
+          "coolConsumptionRate": 0,
+          "heatCostRate": 0,
+          "coolCostRate": 0
+        },
+        {
+          "dataTime": "20260725 11",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": -255,
+          "cost": -255
+        },
+        {
+          "dataTime": "20260725 12",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": -255,
+          "cost": -255
+        },
+        {
+          "dataTime": "20260725 13",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": -255,
+          "cost": -255
+        },
+        {
+          "dataTime": "20260725 14",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": -255,
+          "cost": -255
+        },
+        {
+          "dataTime": "20260725 15",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": -255,
+          "cost": -255
+        },
+        {
+          "dataTime": "20260725 16",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": -255,
+          "cost": -255
+        },
+        {
+          "dataTime": "20260725 17",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": -255,
+          "cost": -255
+        },
+        {
+          "dataTime": "20260725 18",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": -255,
+          "cost": -255
+        },
+        {
+          "dataTime": "20260725 19",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": -255,
+          "cost": -255
+        },
+        {
+          "dataTime": "20260725 20",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": -255,
+          "cost": -255
+        },
+        {
+          "dataTime": "20260725 21",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": -255,
+          "cost": -255
+        },
+        {
+          "dataTime": "20260725 22",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": -255,
+          "cost": -255
+        },
+        {
+          "dataTime": "20260725 23",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": -255,
+          "cost": -255
+        }
+      ],
+      "electricRate": {
+        "weekdayBaseRate": 0.38,
+        "currency": "€",
+        "weekendBaseRate": 0.38,
+        "weekendDifferentRateTime": [],
+        "weekdayDifferentRateTime": []
+      }
+    },
+    "anon-guid-2": {
+      "temperatureUnit": 0,
+      "deviceRegisterTime": "20190209",
+      "historyDataList": [
+        {
+          "dataTime": "20260725 00",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": 0.015,
+          "cost": 0.0057,
+          "heatConsumptionRate": 0,
+          "coolConsumptionRate": 0,
+          "heatCostRate": 0,
+          "coolCostRate": 0
+        },
+        {
+          "dataTime": "20260725 01",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": 0.019000000000000003,
+          "cost": 0.007220000000000001,
+          "heatConsumptionRate": 0,
+          "coolConsumptionRate": 0,
+          "heatCostRate": 0,
+          "coolCostRate": 0
+        },
+        {
+          "dataTime": "20260725 02",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": 0.015,
+          "cost": 0.0057,
+          "heatConsumptionRate": 0,
+          "coolConsumptionRate": 0,
+          "heatCostRate": 0,
+          "coolCostRate": 0
+        },
+        {
+          "dataTime": "20260725 03",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": 0.017,
+          "cost": 0.0064600000000000005,
+          "heatConsumptionRate": 0,
+          "coolConsumptionRate": 0,
+          "heatCostRate": 0,
+          "coolCostRate": 0
+        },
+        {
+          "dataTime": "20260725 04",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": 0.008,
+          "cost": 0.00304,
+          "heatConsumptionRate": 0,
+          "coolConsumptionRate": 0,
+          "heatCostRate": 0,
+          "coolCostRate": 0
+        },
+        {
+          "dataTime": "20260725 05",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": 0.025,
+          "cost": 0.009500000000000001,
+          "heatConsumptionRate": 0,
+          "coolConsumptionRate": 0,
+          "heatCostRate": 0,
+          "coolCostRate": 0
+        },
+        {
+          "dataTime": "20260725 06",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": 0.009000000000000001,
+          "cost": 0.0034200000000000003,
+          "heatConsumptionRate": 0,
+          "coolConsumptionRate": 0,
+          "heatCostRate": 0,
+          "coolCostRate": 0
+        },
+        {
+          "dataTime": "20260725 07",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": 0.028,
+          "cost": 0.01064,
+          "heatConsumptionRate": 0,
+          "coolConsumptionRate": 0,
+          "heatCostRate": 0,
+          "coolCostRate": 0
+        },
+        {
+          "dataTime": "20260725 08",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": 0.025,
+          "cost": 0.009500000000000001,
+          "heatConsumptionRate": 0,
+          "coolConsumptionRate": 0,
+          "heatCostRate": 0,
+          "coolCostRate": 0
+        },
+        {
+          "dataTime": "20260725 09",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": 0.022,
+          "cost": 0.00836,
+          "heatConsumptionRate": 0,
+          "coolConsumptionRate": 0,
+          "heatCostRate": 0,
+          "coolCostRate": 0
+        },
+        {
+          "dataTime": "20260725 10",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": 0.015,
+          "cost": 0.0057,
+          "heatConsumptionRate": 0,
+          "coolConsumptionRate": 0,
+          "heatCostRate": 0,
+          "coolCostRate": 0
+        },
+        {
+          "dataTime": "20260725 11",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": -255,
+          "cost": -255
+        },
+        {
+          "dataTime": "20260725 12",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": -255,
+          "cost": -255
+        },
+        {
+          "dataTime": "20260725 13",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": -255,
+          "cost": -255
+        },
+        {
+          "dataTime": "20260725 14",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": -255,
+          "cost": -255
+        },
+        {
+          "dataTime": "20260725 15",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": -255,
+          "cost": -255
+        },
+        {
+          "dataTime": "20260725 16",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": -255,
+          "cost": -255
+        },
+        {
+          "dataTime": "20260725 17",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": -255,
+          "cost": -255
+        },
+        {
+          "dataTime": "20260725 18",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": -255,
+          "cost": -255
+        },
+        {
+          "dataTime": "20260725 19",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": -255,
+          "cost": -255
+        },
+        {
+          "dataTime": "20260725 20",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": -255,
+          "cost": -255
+        },
+        {
+          "dataTime": "20260725 21",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": -255,
+          "cost": -255
+        },
+        {
+          "dataTime": "20260725 22",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": -255,
+          "cost": -255
+        },
+        {
+          "dataTime": "20260725 23",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": -255,
+          "cost": -255
+        }
+      ],
+      "electricRate": {
+        "weekdayBaseRate": 0.38,
+        "currency": "€",
+        "weekendBaseRate": 0.38,
+        "weekendDifferentRateTime": [],
+        "weekdayDifferentRateTime": []
+      }
+    },
+    "anon-guid-3": {
+      "temperatureUnit": 0,
+      "deviceRegisterTime": "20190210",
+      "historyDataList": [
+        {
+          "dataTime": "20260725 00",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": 0.015,
+          "cost": -255,
+          "heatConsumptionRate": 0,
+          "coolConsumptionRate": 0
+        },
+        {
+          "dataTime": "20260725 01",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": 0.019000000000000003,
+          "cost": -255,
+          "heatConsumptionRate": 0,
+          "coolConsumptionRate": 0
+        },
+        {
+          "dataTime": "20260725 02",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": 0.015,
+          "cost": -255,
+          "heatConsumptionRate": 0,
+          "coolConsumptionRate": 0
+        },
+        {
+          "dataTime": "20260725 03",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": 0.017,
+          "cost": -255,
+          "heatConsumptionRate": 0,
+          "coolConsumptionRate": 0
+        },
+        {
+          "dataTime": "20260725 04",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": 0.008,
+          "cost": -255,
+          "heatConsumptionRate": 0,
+          "coolConsumptionRate": 0
+        },
+        {
+          "dataTime": "20260725 05",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": 0.025,
+          "cost": -255,
+          "heatConsumptionRate": 0,
+          "coolConsumptionRate": 0
+        },
+        {
+          "dataTime": "20260725 06",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": 0.009000000000000001,
+          "cost": -255,
+          "heatConsumptionRate": 0,
+          "coolConsumptionRate": 0
+        },
+        {
+          "dataTime": "20260725 07",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": 0.028,
+          "cost": -255,
+          "heatConsumptionRate": 0,
+          "coolConsumptionRate": 0
+        },
+        {
+          "dataTime": "20260725 08",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": 0.025,
+          "cost": -255,
+          "heatConsumptionRate": 0,
+          "coolConsumptionRate": 0
+        },
+        {
+          "dataTime": "20260725 09",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": 0.022,
+          "cost": -255,
+          "heatConsumptionRate": 0,
+          "coolConsumptionRate": 0
+        },
+        {
+          "dataTime": "20260725 10",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": 0.015,
+          "cost": -255,
+          "heatConsumptionRate": 0,
+          "coolConsumptionRate": 0
+        },
+        {
+          "dataTime": "20260725 11",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": -255,
+          "cost": -255
+        },
+        {
+          "dataTime": "20260725 12",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": -255,
+          "cost": -255
+        },
+        {
+          "dataTime": "20260725 13",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": -255,
+          "cost": -255
+        },
+        {
+          "dataTime": "20260725 14",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": -255,
+          "cost": -255
+        },
+        {
+          "dataTime": "20260725 15",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": -255,
+          "cost": -255
+        },
+        {
+          "dataTime": "20260725 16",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": -255,
+          "cost": -255
+        },
+        {
+          "dataTime": "20260725 17",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": -255,
+          "cost": -255
+        },
+        {
+          "dataTime": "20260725 18",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": -255,
+          "cost": -255
+        },
+        {
+          "dataTime": "20260725 19",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": -255,
+          "cost": -255
+        },
+        {
+          "dataTime": "20260725 20",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": -255,
+          "cost": -255
+        },
+        {
+          "dataTime": "20260725 21",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": -255,
+          "cost": -255
+        },
+        {
+          "dataTime": "20260725 22",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": -255,
+          "cost": -255
+        },
+        {
+          "dataTime": "20260725 23",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": -255,
+          "cost": -255
+        }
+      ]
+    },
+    "anon-guid-4": {
+      "temperatureUnit": 0,
+      "deviceRegisterTime": "20190210",
+      "historyDataList": [
+        {
+          "dataTime": "20260725 00",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": 0.017,
+          "cost": -255,
+          "heatConsumptionRate": 0,
+          "coolConsumptionRate": 0
+        },
+        {
+          "dataTime": "20260725 01",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": 0.018000000000000002,
+          "cost": -255,
+          "heatConsumptionRate": 0,
+          "coolConsumptionRate": 0
+        },
+        {
+          "dataTime": "20260725 02",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": 0.016,
+          "cost": -255,
+          "heatConsumptionRate": 0,
+          "coolConsumptionRate": 0
+        },
+        {
+          "dataTime": "20260725 03",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": 0.018000000000000002,
+          "cost": -255,
+          "heatConsumptionRate": 0,
+          "coolConsumptionRate": 0
+        },
+        {
+          "dataTime": "20260725 04",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": 0.008,
+          "cost": -255,
+          "heatConsumptionRate": 0,
+          "coolConsumptionRate": 0
+        },
+        {
+          "dataTime": "20260725 05",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": 0.008,
+          "cost": -255,
+          "heatConsumptionRate": 0,
+          "coolConsumptionRate": 0
+        },
+        {
+          "dataTime": "20260725 06",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": 0.021,
+          "cost": -255,
+          "heatConsumptionRate": 0,
+          "coolConsumptionRate": 0
+        },
+        {
+          "dataTime": "20260725 07",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": 0.032,
+          "cost": -255,
+          "heatConsumptionRate": 0,
+          "coolConsumptionRate": 0
+        },
+        {
+          "dataTime": "20260725 08",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": 0.032,
+          "cost": -255,
+          "heatConsumptionRate": 0,
+          "coolConsumptionRate": 0
+        },
+        {
+          "dataTime": "20260725 09",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": 0.032,
+          "cost": -255,
+          "heatConsumptionRate": 0,
+          "coolConsumptionRate": 0
+        },
+        {
+          "dataTime": "20260725 10",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": 0.01,
+          "cost": -255,
+          "heatConsumptionRate": 0,
+          "coolConsumptionRate": 0
+        },
+        {
+          "dataTime": "20260725 11",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": -255,
+          "cost": -255
+        },
+        {
+          "dataTime": "20260725 12",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": -255,
+          "cost": -255
+        },
+        {
+          "dataTime": "20260725 13",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": -255,
+          "cost": -255
+        },
+        {
+          "dataTime": "20260725 14",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": -255,
+          "cost": -255
+        },
+        {
+          "dataTime": "20260725 15",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": -255,
+          "cost": -255
+        },
+        {
+          "dataTime": "20260725 16",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": -255,
+          "cost": -255
+        },
+        {
+          "dataTime": "20260725 17",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": -255,
+          "cost": -255
+        },
+        {
+          "dataTime": "20260725 18",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": -255,
+          "cost": -255
+        },
+        {
+          "dataTime": "20260725 19",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": -255,
+          "cost": -255
+        },
+        {
+          "dataTime": "20260725 20",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": -255,
+          "cost": -255
+        },
+        {
+          "dataTime": "20260725 21",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": -255,
+          "cost": -255
+        },
+        {
+          "dataTime": "20260725 22",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": -255,
+          "cost": -255
+        },
+        {
+          "dataTime": "20260725 23",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": -255,
+          "cost": -255
+        }
+      ]
+    },
+    "anon-guid-5": {
+      "temperatureUnit": 0,
+      "deviceRegisterTime": "20190210",
+      "historyDataList": [
+        {
+          "dataTime": "20260725 00",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": 0.017,
+          "cost": -255,
+          "heatConsumptionRate": 0,
+          "coolConsumptionRate": 0
+        },
+        {
+          "dataTime": "20260725 01",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": 0.018000000000000002,
+          "cost": -255,
+          "heatConsumptionRate": 0,
+          "coolConsumptionRate": 0
+        },
+        {
+          "dataTime": "20260725 02",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": 0.016,
+          "cost": -255,
+          "heatConsumptionRate": 0,
+          "coolConsumptionRate": 0
+        },
+        {
+          "dataTime": "20260725 03",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": 0.018000000000000002,
+          "cost": -255,
+          "heatConsumptionRate": 0,
+          "coolConsumptionRate": 0
+        },
+        {
+          "dataTime": "20260725 04",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": 0.008,
+          "cost": -255,
+          "heatConsumptionRate": 0,
+          "coolConsumptionRate": 0
+        },
+        {
+          "dataTime": "20260725 05",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": 0.008,
+          "cost": -255,
+          "heatConsumptionRate": 0,
+          "coolConsumptionRate": 0
+        },
+        {
+          "dataTime": "20260725 06",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": 0.021,
+          "cost": -255,
+          "heatConsumptionRate": 0,
+          "coolConsumptionRate": 0
+        },
+        {
+          "dataTime": "20260725 07",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": 0.032,
+          "cost": -255,
+          "heatConsumptionRate": 0,
+          "coolConsumptionRate": 0
+        },
+        {
+          "dataTime": "20260725 08",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": 0.032,
+          "cost": -255,
+          "heatConsumptionRate": 0,
+          "coolConsumptionRate": 0
+        },
+        {
+          "dataTime": "20260725 09",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": 0.032,
+          "cost": -255,
+          "heatConsumptionRate": 0,
+          "coolConsumptionRate": 0
+        },
+        {
+          "dataTime": "20260725 10",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": 0.01,
+          "cost": -255,
+          "heatConsumptionRate": 0,
+          "coolConsumptionRate": 0
+        },
+        {
+          "dataTime": "20260725 11",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": -255,
+          "cost": -255
+        },
+        {
+          "dataTime": "20260725 12",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": -255,
+          "cost": -255
+        },
+        {
+          "dataTime": "20260725 13",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": -255,
+          "cost": -255
+        },
+        {
+          "dataTime": "20260725 14",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": -255,
+          "cost": -255
+        },
+        {
+          "dataTime": "20260725 15",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": -255,
+          "cost": -255
+        },
+        {
+          "dataTime": "20260725 16",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": -255,
+          "cost": -255
+        },
+        {
+          "dataTime": "20260725 17",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": -255,
+          "cost": -255
+        },
+        {
+          "dataTime": "20260725 18",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": -255,
+          "cost": -255
+        },
+        {
+          "dataTime": "20260725 19",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": -255,
+          "cost": -255
+        },
+        {
+          "dataTime": "20260725 20",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": -255,
+          "cost": -255
+        },
+        {
+          "dataTime": "20260725 21",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": -255,
+          "cost": -255
+        },
+        {
+          "dataTime": "20260725 22",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": -255,
+          "cost": -255
+        },
+        {
+          "dataTime": "20260725 23",
+          "averageSettingTemp": -255,
+          "averageInsideTemp": -255,
+          "averageOutsideTemp": -255,
+          "consumption": -255,
+          "cost": -255
+        }
+      ]
+    }
+  }
+}

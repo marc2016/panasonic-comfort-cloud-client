@@ -121,3 +121,5 @@ temp/
 
 # End of https://www.gitignore.io/api/node,visualstudiocode
 test/auth_data.json
+.DS_Store
+.agents/

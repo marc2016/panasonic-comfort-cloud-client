@@ -5,7 +5,7 @@
   "main": "./dist/src/index.js",
   "types": "./dist/src/index.d.ts",
   "scripts": {
-    "test": "jest --config jest.json",
+    "test": "npm run build && jest --config jest.json",
     "build": "tsc",
     "setup": "npm install"
   },
