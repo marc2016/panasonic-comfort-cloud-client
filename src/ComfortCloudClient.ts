@@ -16,7 +16,7 @@ import { HistoryDataResponse } from './model/HistoryData.js'
 import { OAuthClient } from './OAuthClient.js'
 import { getBaseRequestHeaders } from './domain/apiHelper.js'
 import { promises } from 'dns'
-import { CFCGenerator } from './CFCGenerator.js'
+import { DEFAULT_APP_VERSION } from './domain/appVersion.js'
 
 export class ComfortCloudClient {
   readonly baseUrl = 'https://accsmart.panasonic.com'
@@ -25,7 +25,7 @@ export class ComfortCloudClient {
   readonly urlPartDevice = '/deviceStatus/'
   readonly urlPartDeviceControl = '/deviceStatus/control'
   readonly urlPartDeviceHistoryData = '/deviceHistoryData'
-  readonly defaultAppVersion = '1.22.0'
+  readonly defaultAppVersion = DEFAULT_APP_VERSION
 
   private axiosInstance: AxiosInstance
   public oauthClient: OAuthClient
