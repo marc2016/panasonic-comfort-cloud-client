@@ -137,36 +137,7 @@ Found 2 devices.
 
 ## Changelog
 
-### 2.1.5
-*   **Fix:** Fixed `getDeviceHistoryData` date formatting logic to always use `YYYYMMDD` format for `DataMode.Month` and `DataMode.Year`, resolving errors.
-*   **Feature:** Improved CLI error logging: Now catches errors and logs full `ServiceError` details, including `axios` response data for better debugging.
-
-### 2.1.3
-*   **Feature:** Allow selecting DataMode (Day, Week, Month, Year) in CLI history command.
-
-### 2.1.2
-*   **Fix:** Added check to filter out invalid devices (e.g. Heat Pumps) that do not provide parameters, preventing crashes (PR #22).
-
-### 2.1.1
-*   **Feature:** Added `getDeviceHistoryData` with full type support (`HistoryDataResponse`) for better developer experience.
-*   **Feature:** CLI now prompts for App Version on startup (defaults to current known version).
-*   **Fix:** Corrected various types and examples in `README.md`.
-*   **Fix:** Improved timezone handling in history data requests.
-*   **Internal:** Major test refactoring: Switched to full mocking (removed dependency on `auth_data.json`), extracted fixtures, and added realistic data scenarios.
-
-### 2.1.0
-*   **Feature:** Support for login with refresh token.
-*   **Feature:** Added `CFCGenerator`.
-
-### 2.0.x
-*   **Feature:** Added OAuth support.
-*   **Feature:** Introduced Command Line Interface (CLI).
-*   **Tech:** Upgrade to ES2022.
-*   **Fix:** Auto-refresh token fixes.
-
-### 1.1.0
-*   **Feature:** Added support for inside/outside temperature.
-*   **Feature:** Added support for nanoe mode.
+See [CHANGELOG.md](CHANGELOG.md) for details on all release history.
 
 ## License
 
