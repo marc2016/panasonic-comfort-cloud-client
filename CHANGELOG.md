@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [3.0.0] - unreleased
+## [3.0.0] - 2026-10-25
 
 ### Changed
 - **BREAKING:** requires Node.js 22.12 or newer. `axios-cookiejar-support` was updated to 7.x (with `http-cookie-agent` 8.x), which is ESM-only and is loaded through `require()`; Node versions before 22.12 fail with `ERR_REQUIRE_ESM`. Stay on 2.x for older Node versions.
