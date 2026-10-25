@@ -11,23 +11,38 @@ declare module 'axios' {
 }
 
 
+export type TokenChangeCallback = (tokens: { token: string, refreshToken: string }) => void
+export type RefreshErrorCallback = (error: unknown) => void
+
+const AUTO_REFRESH_INTERVAL_MS = 86300000
+export const OAUTH_BASE_URL = 'https://authglb.digital.panasonic.com'
+
 export class OAuthClient {
   private oauthClient: AxiosInstance
   private appVersion: string | undefined = ''
   private enableAutoRefresh: boolean = true
+  private onTokenChange?: TokenChangeCallback
+  private onRefreshError?: RefreshErrorCallback
+  private refreshTimer?: NodeJS.Timeout
 
   private clientId: string = ''
   public token: string = ''
   public tokenRefresh: string = ''
 
-  private readonly BASE_URL = 'https://authglb.digital.panasonic.com'
+  private readonly BASE_URL = OAUTH_BASE_URL
   private readonly CLIENT_ID = 'Xmy6xIYIitMxngjB2rHvlm6HSDNnaMJx'
   private readonly OAUTH_CLIENT_ID = 'eyJuYW1lIjoiQXV0aDAuQW5kcm9pZCIsImVudiI6eyJhbmRyb2lkIjoiMzAifSwidmVyc2lvbiI6IjIuOS4zIn0='
   private readonly REDIRECT_URL = 'panasonic-iot-cfc://authglb.digital.panasonic.com/android/com.panasonic.ACCsmart/callback'
 
-  constructor(appVersion?: string, enableAutoRefresh: boolean = true) {
+  constructor(
+    appVersion?: string,
+    enableAutoRefresh: boolean = true,
+    onTokenChange?: TokenChangeCallback,
+    onRefreshError?: RefreshErrorCallback) {
     this.appVersion = appVersion
     this.enableAutoRefresh = enableAutoRefresh
+    this.onTokenChange = onTokenChange
+    this.onRefreshError = onRefreshError
     const jar = new CookieJar()
     this.oauthClient = wrapper(axios.create({
       baseURL: this.BASE_URL,
@@ -60,11 +75,49 @@ export class OAuthClient {
       const [token, tokenRefresh] = await this.getNewToken(code, codeVerifier)
       this.tokenRefresh = tokenRefresh
       this.token = token
+      this.notifyTokenChange()
 
-      if(this.enableAutoRefresh)
-        setTimeout(this.refreshToken.bind(this), 86300000)
+      this.scheduleAutoRefresh()
 
       return token
+  }
+
+  public stopAutoRefresh(): void {
+    if (this.refreshTimer)
+      clearTimeout(this.refreshTimer)
+    this.refreshTimer = undefined
+  }
+
+  private scheduleAutoRefresh(): void {
+    if (!this.enableAutoRefresh)
+      return
+    this.stopAutoRefresh()
+    this.refreshTimer = setTimeout(() => this.autoRefresh(), AUTO_REFRESH_INTERVAL_MS)
+    // a pending refresh must not keep short-lived processes (e.g. the CLI) alive
+    this.refreshTimer.unref()
+  }
+
+  private async autoRefresh(): Promise<void> {
+    this.refreshTimer = undefined
+    try {
+      await this.refreshToken()
+    } catch (error) {
+      try {
+        this.onRefreshError?.(error)
+      } catch {
+        // errors of the caller's handler must not become unhandled rejections
+      }
+    }
+  }
+
+  private notifyTokenChange(): void {
+    if (!this.onTokenChange)
+      return
+    try {
+      this.onTokenChange({ token: this.token, refreshToken: this.tokenRefresh })
+    } catch {
+      // persistence errors of the caller must not break the API flow
+    }
   }
 
   private async authorize(codeVerifier: string): Promise<[string, string]> {
@@ -213,9 +266,9 @@ export class OAuthClient {
 
     this.token = response.data.access_token
     this.tokenRefresh = response.data.refresh_token
+    this.notifyTokenChange()
 
-    if(this.enableAutoRefresh)
-      setTimeout(this.refreshToken.bind(this), 86300000)
+    this.scheduleAutoRefresh()
 
     return this.token
   }

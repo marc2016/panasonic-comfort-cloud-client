@@ -2,6 +2,7 @@ import { ServiceError } from '../src/model/ServiceError.js'
 import { TokenExpiredError } from '../src/model/TokenExpiredError.js'
 import { AdapterCommunicationError } from '../src/model/AdapterCommunicationError.js'
 import { AppVersionRejectedError } from '../src/model/AppVersionRejectedError.js'
+import { AuthenticationError } from '../src/model/AuthenticationError.js'
 import { AppType } from '../src/domain/enums.js'
 
 describe('Error Models Unit Tests', () => {
@@ -43,5 +44,14 @@ describe('Error Models Unit Tests', () => {
     expect(error.message).toContain('Android')
     expect(error instanceof ServiceError).toBeTruthy()
     expect(error instanceof AppVersionRejectedError).toBeTruthy()
+  })
+
+  test('AuthenticationError should inherit from ServiceError with code -1', () => {
+    const error = new AuthenticationError('HTTP 403: Unknown or invalid refresh token.', 403, { error: 'invalid_grant' })
+    expect(error.code).toBe(-1)
+    expect(error.httpCode).toBe(403)
+    expect(error.details).toEqual({ error: 'invalid_grant' })
+    expect(error instanceof ServiceError).toBeTruthy()
+    expect(error instanceof AuthenticationError).toBeTruthy()
   })
 })

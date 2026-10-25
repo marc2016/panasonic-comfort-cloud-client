@@ -9,6 +9,18 @@ All notable changes to this project will be documented in this file.
 - Read-only `appVersion` / `appType` getters on `ComfortCloudClient`.
 - `AppVersionRejectedError` (extends `ServiceError`) for error code 4106, including the rejected version and platform.
 - CLI asks for the app platform.
+- `ComfortCloudClient` / `OAuthClient` accept an optional `onTokenChange` callback that is called whenever access and refresh token change (login, refresh, automatic refresh).
+- CLI can remember a login: stores the refresh token (not the password) in the user's config directory with `0600` permissions, reuses it on the next start, saves rotated tokens and offers "Forget saved login".
+
+- `ComfortCloudClient.dispose()` and `OAuthClient.stopAutoRefresh()` to stop the automatic token refresh; optional `onRefreshError` callback.
+- `AuthenticationError` (extends `ServiceError`) for failures of the Panasonic OAuth login, with HTTP status and the server's error description.
+
+### Fixed
+- A failing automatic token refresh no longer crashes the process with an unhandled promise rejection.
+- Repeated logins no longer stack additional automatic refresh timers; the pending timer no longer keeps the process alive (CLI now exits after "Exit").
+- Error messages no longer contain `undefined` when the server sends no Comfort Cloud code/message.
+- CLI asks for the platform first and suggests a matching default version (iOS: current App Store version).
+- CLI prints a readable message and exits with code 1 when the login fails instead of crashing with a stack trace.
 
 ### Changed
 - `DEFAULT_APP_VERSION` updated from 3.4.0 to 5.1.0 (Android).

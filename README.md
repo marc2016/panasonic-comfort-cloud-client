@@ -60,6 +60,29 @@ try {
 
 Without arguments the client uses a built-in default version with `AppType.ANDROID`. The default is only a fallback and may be outdated; pass the current store version.
 
+### Token refresh and shutdown
+
+After login the client refreshes the OAuth token automatically about once a day. Only one refresh is pending per client, and the pending timer does not keep the Node.js process alive (`unref`), so long-running consumers need their own event-loop handles (servers, database connections, ...). A failed automatic refresh does not throw; it stops the automatic refresh and is reported through the optional `onRefreshError` callback. Later requests then fail with `TokenExpiredError`, so log in again.
+
+```js
+const client = new ComfortCloudClient('5.1.1', AppType.IOS, {
+  onTokenChange: ({ refreshToken }) => saveSomewhere(refreshToken), // refresh tokens rotate
+  onRefreshError: error => console.warn('Token refresh failed', error),
+})
+
+// when the client is no longer needed (e.g. adapter unload)
+client.dispose()
+```
+
+### Errors
+
+| Error | When |
+| --- | --- |
+| `AuthenticationError` | The Panasonic OAuth login failed (wrong credentials, invalid refresh token). `httpCode` is the HTTP status, `code` is always `-1`, the message contains the server's description. |
+| `TokenExpiredError` | Comfort Cloud code 4100, log in again. |
+| `AppVersionRejectedError` | Comfort Cloud code 4106, app version/platform not accepted. |
+| `ServiceError` | Any other Comfort Cloud error (`code` is the Comfort Cloud code or `-1`). All errors above extend it. |
+
 ### Groups and Devices
 
 ```js
@@ -135,6 +158,15 @@ or if you haven't installed it globally:
 $ npx panasonic-comfort-cloud-client
 ```
 Follow the interactive prompts to login and control your devices.
+
+#### Remembered login
+
+After a successful login the CLI asks whether to remember it. If you agree, the OAuth **refresh token** (never the password) is stored together with username, app version and platform in:
+
+- `$XDG_CONFIG_HOME/panasonic-comfort-cloud-client/session.json`, or
+- `~/.config/panasonic-comfort-cloud-client/session.json` (macOS/Linux), `%APPDATA%\panasonic-comfort-cloud-client\session.json` (Windows)
+
+The file is created with owner-only permissions (`0600`). On the next start the CLI offers to reuse it and skips all prompts. Rotated refresh tokens are saved automatically. An expired or unreadable session is removed and the normal prompts are shown. Use the menu command **Forget saved login** (or delete the file) to remove it. Anyone who can read this file can access your Comfort Cloud account until the token expires.
 
 ### Usage Example
 

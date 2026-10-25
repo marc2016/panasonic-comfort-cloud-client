@@ -11,10 +11,11 @@ import { Parameters } from './model/Parameters.js'
 import { TokenExpiredError } from './model/TokenExpiredError.js'
 import { AdapterCommunicationError } from './model/AdapterCommunicationError.js'
 import { AppVersionRejectedError } from './model/AppVersionRejectedError.js'
+import { AuthenticationError } from './model/AuthenticationError.js'
 import { AppType, DataMode } from './domain/enums.js'
 import { getDateForHistoryData, getFormattedTimestamp, getTimezoneForHistoryData } from './domain/helper.js'
 import { HistoryDataResponse } from './model/HistoryData.js'
-import { OAuthClient } from './OAuthClient.js'
+import { OAUTH_BASE_URL, OAuthClient, RefreshErrorCallback, TokenChangeCallback } from './OAuthClient.js'
 import { getBaseRequestHeaders } from './domain/apiHelper.js'
 import { promises } from 'dns'
 import { DEFAULT_APP_VERSION } from './domain/appVersion.js'
@@ -37,13 +38,13 @@ export class ComfortCloudClient {
   private clientId: string = ''
 
 
-  constructor(appVersion?: string, appType: AppType = AppType.ANDROID) {
+  constructor(appVersion?: string, appType: AppType = AppType.ANDROID, options?: { onTokenChange?: TokenChangeCallback, onRefreshError?: RefreshErrorCallback }) {
     this._appVersion = appVersion || this.defaultAppVersion
     this._appType = appType
     this.axiosInstance = axios.create({
       baseURL: this.baseUrl,
     })
-    this.oauthClient = new OAuthClient(appVersion)
+    this.oauthClient = new OAuthClient(appVersion, true, options?.onTokenChange, options?.onRefreshError)
   }
 
   get appVersion(): string {
@@ -52,6 +53,11 @@ export class ComfortCloudClient {
 
   get appType(): AppType {
     return this._appType
+  }
+
+  /** Stops the automatic token refresh. Call this when the client is no longer used. */
+  dispose(): void {
+    this.oauthClient.stopAutoRefresh()
   }
 
   async login(
@@ -159,46 +165,41 @@ export class ComfortCloudClient {
   }
 
   private handleError(error: unknown): void {
-    if (error instanceof AxiosError) {
-      let message: string
-      let code: number
-      if (error.response) {
-        code = error.response?.data.code
-        message = error.response?.data.message
-        switch (code) {
-          case 4100:
-            throw new TokenExpiredError(
-              error.message + '\n' + message,
-              code,
-              error.status ?? -1
-            )
-          case 4106:
-            throw new AppVersionRejectedError(
-              error.message + '\n' + message,
-              code,
-              error.status ?? -1,
-              this._appVersion,
-              this._appType,
-              error.response?.data
-            )
-          case 5005:
-            throw new AdapterCommunicationError(
-              error.message + '\n' + message,
-              code,
-              error.status ?? -1
-            )
-          default:
-            throw new ServiceError(
-              error.message + '\n' + message,
-              code,
-              error.status ?? -1,
-              error.response?.data
-            )
-            break;
-        }
+    if (error instanceof AxiosError && error.response) {
+      const data = error.response.data
+      const httpCode = error.response.status ?? error.status ?? -1
+
+      if (this.isOAuthRequest(error)) {
+        const description = data?.error_description ?? data?.description ?? data?.message ?? data?.error ?? error.response.statusText
+        throw new AuthenticationError(
+          description ? `HTTP ${httpCode}: ${description}` : `HTTP ${httpCode}`,
+          httpCode,
+          data
+        )
+      }
+
+      const code = typeof data?.code === 'number' ? data.code : -1
+      const message = typeof data?.message === 'string' && data.message
+        ? error.message + '\n' + data.message
+        : error.message
+      switch (code) {
+        case 4100:
+          throw new TokenExpiredError(message, code, httpCode)
+        case 4106:
+          throw new AppVersionRejectedError(message, code, httpCode, this._appVersion, this._appType, data)
+        case 5005:
+          throw new AdapterCommunicationError(message, code, httpCode)
+        default:
+          throw new ServiceError(message, code, httpCode, data)
       }
     }
     throw error
+  }
+
+  private isOAuthRequest(error: AxiosError): boolean {
+    const baseURL = error.config?.baseURL ?? ''
+    const url = error.config?.url ?? ''
+    return baseURL.startsWith(OAUTH_BASE_URL) || url.startsWith(OAUTH_BASE_URL)
   }
 
   async setDevice(device: Device): Promise<any> {

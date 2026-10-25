@@ -2,19 +2,21 @@
 
 import * as fs from 'fs'
 import * as path from 'path'
+import axios from 'axios'
 import { ComfortCloudClient } from './ComfortCloudClient.js'
 import { Group } from './model/Group.js'
 import { Device } from './model/Device.js'
 import { ServiceError } from './model/ServiceError.js'
 
-import { input, useEffect } from '@inquirer/prompts'
+import { confirm, input, useEffect } from '@inquirer/prompts'
 import password from '@inquirer/password'
 import select from '@inquirer/select'
 import { AppType, DataMode } from './domain/enums.js'
 import { OAuthClient } from './OAuthClient.js'
 import { DEFAULT_APP_VERSION } from './domain/appVersion.js'
+import { deleteSession, loadSession, saveSession, sessionExists, sessionPath } from './cli/session.js'
 
-type Command = 'get-group' | 'get-device' | 'dump-all' | 'refresh-token' | 'print-tokens' | 'exit' | null
+type Command = 'get-group' | 'get-device' | 'dump-all' | 'refresh-token' | 'print-tokens' | 'forget-login' | 'exit' | null
 type DeviceCommand = 'get-history' | 'print-device' | 'exit' | null
 
 let client: ComfortCloudClient
@@ -47,6 +49,11 @@ async function SelectCommand(): Promise<Command> {
         name: 'Refresh token',
         value: 'refresh-token',
         description: 'Refresh the OAuth token',
+      },
+      {
+        name: 'Forget saved login',
+        value: 'forget-login',
+        description: 'Delete the remembered login (refresh token)',
       },
       {
         name: 'Exit',
@@ -290,11 +297,73 @@ async function ExportAnonymizedFixtures() {
   console.log('========================================\n')
 }
 
-async function start() {
+let rememberLogin = false
+let sessionUsername = ''
 
+function persistTokens(tokens: { token: string, refreshToken: string }) {
+  if (!rememberLogin || !client)
+    return
+  saveSession({
+    username: sessionUsername,
+    appVersion: client.appVersion,
+    appType: client.appType,
+    refreshToken: tokens.refreshToken,
+  })
+}
 
-  const versionInput = await input({ message: `App Version (default: ${DEFAULT_APP_VERSION})` })
-  const appVersion = versionInput ? versionInput : DEFAULT_APP_VERSION
+function describeError(error: unknown): string {
+  if (error instanceof ServiceError)
+    return error.code !== -1 ? `${error.message} (code ${error.code})` : error.message
+  if (error instanceof Error)
+    return error.message
+  return String(error)
+}
+
+function platformName(appType: AppType): string {
+  return appType === AppType.IOS ? 'iOS' : 'Android'
+}
+
+async function loginWithSavedSession(): Promise<boolean> {
+  const session = loadSession()
+  if (!session) {
+    if (sessionExists()) {
+      console.log('Saved login could not be read and was removed.')
+      deleteSession()
+    }
+    return false
+  }
+
+  const useSession = await confirm({
+    message: `Use saved login for ${session.username} (${session.appVersion}, ${platformName(session.appType)})?`,
+    default: true,
+  })
+  if (!useSession)
+    return false
+
+  client = new ComfortCloudClient(session.appVersion, session.appType, { onTokenChange: persistTokens })
+  sessionUsername = session.username
+  rememberLogin = true
+  try {
+    await client.login('', '', session.refreshToken)
+    return true
+  } catch (error) {
+    rememberLogin = false
+    console.log(`Saved login is no longer valid (${describeError(error)}).`)
+    deleteSession()
+    return false
+  }
+}
+
+async function getAppStoreVersion(): Promise<string | undefined> {
+  try {
+    const response = await axios.get('https://itunes.apple.com/lookup?id=1348640525', { timeout: 5000 })
+    return response.data?.results?.[0]?.version
+  } catch {
+    return undefined
+  }
+}
+
+async function loginWithPassword() {
   const appType: AppType = await select({
     message: 'App platform (X-APP-TYPE)',
     choices: [
@@ -303,13 +372,45 @@ async function start() {
     ],
   })
 
+  let defaultVersion: string | undefined = DEFAULT_APP_VERSION
+  if (appType === AppType.IOS) {
+    defaultVersion = await getAppStoreVersion()
+    if (!defaultVersion)
+      console.log('Could not read the App Store version.')
+  }
+  const appVersion = await input({
+    message: 'App Version',
+    default: defaultVersion,
+    validate: value => value.trim() !== '' || 'Please enter an app version.',
+  })
+
   const answers = {
     username: await input({ message: 'Username' }),
     password: await password({ message: 'Password' }),
   }
 
-  client = new ComfortCloudClient(appVersion, appType)
-  await client.login(answers.username, answers.password)
+  client = new ComfortCloudClient(appVersion, appType, { onTokenChange: persistTokens })
+  sessionUsername = answers.username
+  try {
+    await client.login(answers.username, answers.password)
+  } catch (error) {
+    console.error(`Login failed: ${describeError(error)}`)
+    process.exit(1)
+  }
+
+  const remember = await confirm({
+    message: `Remember this login? (refresh token is stored in ${sessionPath()})`,
+    default: true,
+  })
+  if (remember) {
+    rememberLogin = true
+    persistTokens({ token: client.oauthClient.token, refreshToken: client.oauthClient.tokenRefresh })
+  }
+}
+
+async function start() {
+  if (!(await loginWithSavedSession()))
+    await loginWithPassword()
   console.log('Login successful.')
 
 
@@ -340,6 +441,11 @@ async function start() {
           await client.oauthClient.refreshToken()
           console.log('Token refresh was successful.')
           break
+        case 'forget-login':
+          deleteSession()
+          rememberLogin = false
+          console.log('Saved login removed.')
+          break
         default:
           break
       }
@@ -355,6 +461,9 @@ async function start() {
       }
     }
   }
+
+  client.dispose()
+  process.exit(0)
 }
 
 start()

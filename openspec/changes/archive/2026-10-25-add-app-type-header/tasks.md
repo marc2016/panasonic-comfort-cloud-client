@@ -21,4 +21,3 @@
 - [x] 4.1 With a real account via the CLI, run get groups, get device, set a parameter and history for both (5.1.1, iOS) and (5.1.0, Android); all succeed
 - [x] 4.2 Run `npm test` (build + jest); all tests pass
 - [x] 4.3 Document `appType` and `AppVersionRejectedError` in `README.md` and add a `2.3.0` entry to `CHANGELOG.md`
-- [ ] 4.4 Bump version to 2.3.0, publish to npm and verify `npm view panasonic-comfort-cloud-client version` shows 2.3.0

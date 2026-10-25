@@ -6,6 +6,8 @@ import { OAuthClient } from '../src/OAuthClient.js'
 import { AppType, Power, OperationMode, EcoMode, AirSwingUD, AirSwingLR, FanAutoMode, FanSpeed } from '../src/domain/enums.js'
 import axios, { AxiosError } from 'axios'
 import { AppVersionRejectedError } from '../src/model/AppVersionRejectedError.js'
+import { AuthenticationError } from '../src/model/AuthenticationError.js'
+import { AdapterCommunicationError } from '../src/model/AdapterCommunicationError.js'
 import { TokenExpiredError } from '../src/model/TokenExpiredError.js'
 import { ServiceError } from '../src/model/ServiceError.js'
 import { mockGroupResponse, mockDeviceResponse } from './fixtures.js'
@@ -33,7 +35,8 @@ describe('ComfortCloudClient Tests', () => {
         oAuthProcess: jest.fn().mockResolvedValue(dummyToken),
         refreshToken: jest.fn().mockResolvedValue(dummyToken),
         token: dummyToken,
-        tokenRefresh: dummyRefreshToken
+        tokenRefresh: dummyRefreshToken,
+        stopAutoRefresh: jest.fn()
       } as unknown as OAuthClient;
     });
 
@@ -217,6 +220,86 @@ describe('ComfortCloudClient Tests', () => {
 
     expect(error).toBeInstanceOf(TokenExpiredError);
     expect(error).not.toBeInstanceOf(AppVersionRejectedError);
+  });
+
+  test('onTokenChange option is passed to the OAuthClient', () => {
+    const onTokenChange = jest.fn();
+    new ComfortCloudClient('5.1.1', AppType.IOS, { onTokenChange });
+    expect(MockedOAuthClient).toHaveBeenLastCalledWith('5.1.1', true, onTokenChange, undefined);
+  });
+
+  test('onRefreshError option is passed to the OAuthClient', () => {
+    const onRefreshError = jest.fn();
+    new ComfortCloudClient('5.1.0', AppType.ANDROID, { onRefreshError });
+    expect(MockedOAuthClient).toHaveBeenLastCalledWith('5.1.0', true, undefined, onRefreshError);
+  });
+
+  test('dispose stops the automatic refresh', () => {
+    client.dispose();
+    expect(client.oauthClient.stopAutoRefresh).toHaveBeenCalledTimes(1);
+  });
+
+  function httpError(status: number, data: any, config: any = { baseURL: 'https://accsmart.panasonic.com' }): AxiosError {
+    const error = new AxiosError();
+    return Object.assign(error, {
+      message: `Request failed with status code ${status}`,
+      status,
+      config,
+      response: { status, statusText: 'Error', data },
+    });
+  }
+
+  function oauthClientRejecting(error: AxiosError) {
+    (client.oauthClient.oAuthProcess as jest.Mock).mockRejectedValueOnce(error);
+  }
+
+  test('wrong password from the OAuth host throws AuthenticationError', async () => {
+    oauthClientRejecting(httpError(401,
+      { name: 'ValidationError', code: 'invalid_user_password', description: 'Wrong email or password.' },
+      { baseURL: 'https://authglb.digital.panasonic.com', url: '/usernamepassword/login' }));
+
+    const error = await client.login('testuser', 'wrong').catch(e => e);
+
+    expect(error).toBeInstanceOf(AuthenticationError);
+    expect(error.httpCode).toBe(401);
+    expect(error.message).toBe('HTTP 401: Wrong email or password.');
+  });
+
+  test('invalid refresh token from the OAuth host throws AuthenticationError', async () => {
+    (client.oauthClient.refreshToken as jest.Mock).mockRejectedValueOnce(httpError(403,
+      { error: 'invalid_grant', error_description: 'Unknown or invalid refresh token.' },
+      { baseURL: 'https://authglb.digital.panasonic.com', url: '/oauth/token' }));
+
+    const error = await client.login('', '', 'old-refresh').catch(e => e);
+
+    expect(error).toBeInstanceOf(AuthenticationError);
+    expect(error.message).toBe('HTTP 403: Unknown or invalid refresh token.');
+  });
+
+  test('Comfort Cloud error without body yields a clean ServiceError', async () => {
+    mockedAxios.get.mockRejectedValueOnce(httpError(500, ''));
+
+    const error = await client.getGroups().catch(e => e);
+
+    expect(error).toBeInstanceOf(ServiceError);
+    expect(error).not.toBeInstanceOf(AuthenticationError);
+    expect(error.code).toBe(-1);
+    expect(error.httpCode).toBe(500);
+    expect(error.message).toContain('500');
+    expect(error.message).not.toContain('undefined');
+  });
+
+  test('known Comfort Cloud codes keep their error types', async () => {
+    mockedAxios.get.mockRejectedValueOnce(httpError(401, { code: 4100, message: 'Token expires' }));
+    expect(await client.getGroups().catch(e => e)).toBeInstanceOf(TokenExpiredError);
+
+    mockedAxios.get.mockRejectedValueOnce(httpError(401, { code: 4106, message: 'New version app has been published' }));
+    expect(await client.getGroups().catch(e => e)).toBeInstanceOf(AppVersionRejectedError);
+
+    mockedAxios.get.mockRejectedValueOnce(httpError(500, { code: 5005, message: 'Adapter communication error' }));
+    const adapterError = await client.getGroups().catch(e => e);
+    expect(adapterError).toBeInstanceOf(AdapterCommunicationError);
+    expect(adapterError.message).not.toContain('undefined');
   });
 
 });
