@@ -126,3 +126,6 @@ dev/
 docs/
 dist/test/
 .npmignore
+.agents/
+.claude/
+openspec/
