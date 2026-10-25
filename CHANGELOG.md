@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [2.3.0] - unreleased
+## [2.3.0] - 2026-10-25
 
 ### Added
 - `AppType` enum and optional `appType` constructor parameter on `ComfortCloudClient` to send `X-APP-TYPE` (`0` = iOS, `1` = Android). The API only accepts the current version of the declared platform, so iOS store versions must be sent as iOS.
