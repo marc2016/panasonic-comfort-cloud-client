@@ -63,3 +63,8 @@ export enum NanoeMode {
   ModeG = 3,
   All = 4
 }
+
+export enum AppType {
+  IOS = '0',
+  ANDROID = '1',
+}

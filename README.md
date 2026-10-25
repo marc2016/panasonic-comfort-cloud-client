@@ -38,6 +38,28 @@ await client.login(username, password)
 
 Login to Panasonic Comfort Cloud with username and password will return a random token. This token is stored internally in a variable and sent with every request.
 
+### App version and platform
+
+The API only accepts the **current** app version of the platform sent in `X-APP-TYPE`. iOS and Android versions can differ (e.g. iOS 5.1.1 while Android is still 5.1.0), so pass the version together with the matching platform:
+
+```js
+import { ComfortCloudClient, AppType, AppVersionRejectedError } from 'panasonic-comfort-cloud-client'
+
+// version from the iOS App Store -> AppType.IOS, from Google Play -> AppType.ANDROID (default)
+const client = new ComfortCloudClient('5.1.1', AppType.IOS)
+
+try {
+  await client.login(username, password)
+} catch (error) {
+  if (error instanceof AppVersionRejectedError) {
+    // code 4106 "New version app has been published"
+    console.log(`Rejected: ${error.appVersion} / ${error.appType}`)
+  }
+}
+```
+
+Without arguments the client uses a built-in default version with `AppType.ANDROID`. The default is only a fallback and may be outdated; pass the current store version.
+
 ### Groups and Devices
 
 ```js
@@ -117,7 +139,8 @@ Follow the interactive prompts to login and control your devices.
 ### Usage Example
 
 ```bash
-? App Version (default: 1.20.0) 1.21.0
+? App Version (default: 5.1.0) 5.1.1
+? App platform (X-APP-TYPE) iOS
 ? Username myemail@example.com
 ? Password [hidden]
 Login successful.

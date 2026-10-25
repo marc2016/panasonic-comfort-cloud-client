@@ -1,8 +1,9 @@
 import { CFCGenerator } from "../CFCGenerator";
 import { DEFAULT_APP_VERSION } from "./appVersion";
+import { AppType } from "./enums";
 import { getFormattedTimestamp } from "./helper";
 
-export function getBaseRequestHeaders(appVersion: string = DEFAULT_APP_VERSION, token: string|null = null) {
+export function getBaseRequestHeaders(appVersion: string = DEFAULT_APP_VERSION, token: string|null = null, appType: AppType = AppType.ANDROID) {
   const cfcGenerator = new CFCGenerator()
   const timestamp = getFormattedTimestamp()
   const key = cfcGenerator.generateKey(timestamp, token)
@@ -12,7 +13,7 @@ export function getBaseRequestHeaders(appVersion: string = DEFAULT_APP_VERSION, 
     'User-Agent': 'G-RAC',
     'X-APP-NAME': 'Comfort Cloud',
     'X-APP-TIMESTAMP': timestamp,
-    'X-APP-TYPE': '1',
+    'X-APP-TYPE': appType,
     'X-APP-VERSION': appVersion,
     'X-CFC-API-KEY': key,
   }

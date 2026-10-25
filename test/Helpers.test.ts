@@ -4,7 +4,9 @@ import {
   getTimezoneForHistoryData,
   getFormattedTimestamp
 } from '../src/domain/helper.js'
-import { DataMode } from '../src/domain/enums.js'
+import { AppType, DataMode } from '../src/domain/enums.js'
+import { getBaseRequestHeaders } from '../src/domain/apiHelper.js'
+import { DEFAULT_APP_VERSION } from '../src/domain/appVersion.js'
 
 describe('Domain Helper Unit Tests', () => {
   test('padTo2Digits should correctly format single and double digits', () => {
@@ -31,5 +33,21 @@ describe('Domain Helper Unit Tests', () => {
   test('getFormattedTimestamp should return timestamp string in YYYY-MM-DD HH:mm:ss format', () => {
     const timestamp = getFormattedTimestamp()
     expect(timestamp).toMatch(/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/)
+  })
+
+  test('getBaseRequestHeaders should send the given app type and version', () => {
+    const ios = getBaseRequestHeaders('5.1.1', null, AppType.IOS)
+    expect(ios['X-APP-TYPE']).toBe('0')
+    expect(ios['X-APP-VERSION']).toBe('5.1.1')
+
+    const android = getBaseRequestHeaders('5.1.0', null, AppType.ANDROID)
+    expect(android['X-APP-TYPE']).toBe('1')
+    expect(android['X-APP-VERSION']).toBe('5.1.0')
+  })
+
+  test('getBaseRequestHeaders should default to Android and the default version', () => {
+    const headers = getBaseRequestHeaders()
+    expect(headers['X-APP-TYPE']).toBe('1')
+    expect(headers['X-APP-VERSION']).toBe(DEFAULT_APP_VERSION)
   })
 })

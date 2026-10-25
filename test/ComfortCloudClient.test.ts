@@ -3,8 +3,11 @@ import { ComfortCloudClient } from '../src/ComfortCloudClient.js'
 import { Group } from '../src/model/Group.js'
 import { Device } from '../src/model/Device.js'
 import { OAuthClient } from '../src/OAuthClient.js'
-import { Power, OperationMode, EcoMode, AirSwingUD, AirSwingLR, FanAutoMode, FanSpeed } from '../src/domain/enums.js'
-import axios from 'axios'
+import { AppType, Power, OperationMode, EcoMode, AirSwingUD, AirSwingLR, FanAutoMode, FanSpeed } from '../src/domain/enums.js'
+import axios, { AxiosError } from 'axios'
+import { AppVersionRejectedError } from '../src/model/AppVersionRejectedError.js'
+import { TokenExpiredError } from '../src/model/TokenExpiredError.js'
+import { ServiceError } from '../src/model/ServiceError.js'
 import { mockGroupResponse, mockDeviceResponse } from './fixtures.js'
 
 // Mock axios for ComfortCloudClient calls
@@ -151,6 +154,69 @@ describe('ComfortCloudClient Tests', () => {
     expect(url).toBe('/deviceStatus/control');
     expect((body as any).deviceGuid).toBe(deviceGuid);
     expect((body as any).parameters.temperatureSet).toBe(22);
+  });
+
+  test('appVersion and appType default to library default and Android', () => {
+    expect(client.appVersion).toBe(client.defaultAppVersion);
+    expect(client.appType).toBe(AppType.ANDROID);
+  });
+
+  test('login and getGroups send X-APP-TYPE 0 for iOS', async () => {
+    const iosClient = new ComfortCloudClient('5.1.1', AppType.IOS);
+    expect(iosClient.appVersion).toBe('5.1.1');
+    expect(iosClient.appType).toBe(AppType.IOS);
+
+    mockedAxios.post.mockResolvedValueOnce({ status: 200, data: { clientId: dummyClientId } });
+    await iosClient.login('testuser', 'testpassword');
+    const loginHeaders = (mockedAxios.post.mock.calls[0][2] as any).headers;
+    expect(loginHeaders['X-APP-TYPE']).toBe('0');
+    expect(loginHeaders['X-APP-VERSION']).toBe('5.1.1');
+
+    mockedAxios.get.mockResolvedValueOnce({ status: 200, data: mockGroupResponse });
+    await iosClient.getGroups();
+    const groupHeaders = (mockedAxios.get.mock.calls[0][1] as any).headers;
+    expect(groupHeaders['X-APP-TYPE']).toBe('0');
+  });
+
+  test('login sends X-APP-TYPE 1 when only a version is passed', async () => {
+    const versionOnlyClient = new ComfortCloudClient('5.1.0');
+    mockedAxios.post.mockResolvedValueOnce({ status: 200, data: { clientId: dummyClientId } });
+    await versionOnlyClient.login('testuser', 'testpassword');
+    const headers = (mockedAxios.post.mock.calls[0][2] as any).headers;
+    expect(headers['X-APP-TYPE']).toBe('1');
+    expect(headers['X-APP-VERSION']).toBe('5.1.0');
+  });
+
+  function apiError(code: number, message: string): AxiosError {
+    const error = new AxiosError();
+    return Object.assign(error, {
+      message: 'Request failed with status code 401',
+      status: 401,
+      response: { status: 401, data: { code, message } },
+    });
+  }
+
+  test('login rejected with 4106 throws AppVersionRejectedError', async () => {
+    const iosClient = new ComfortCloudClient('5.1.0', AppType.IOS);
+    mockedAxios.post.mockRejectedValueOnce(apiError(4106, 'New version app has been published'));
+
+    const error = await iosClient.login('testuser', 'testpassword').catch(e => e);
+
+    expect(error).toBeInstanceOf(AppVersionRejectedError);
+    expect(error).toBeInstanceOf(ServiceError);
+    expect(error.code).toBe(4106);
+    expect(error.appVersion).toBe('5.1.0');
+    expect(error.appType).toBe(AppType.IOS);
+    expect(error.message).toContain('5.1.0 (iOS');
+  });
+
+  test('login rejected with 4100 still throws TokenExpiredError', async () => {
+    mockedAxios.post.mockRejectedValueOnce(apiError(4100, 'Token expires'));
+
+    const error = await client.login('testuser', 'testpassword').catch(e => e);
+
+    expect(error).toBeInstanceOf(TokenExpiredError);
+    expect(error).not.toBeInstanceOf(AppVersionRejectedError);
   });
 
 });

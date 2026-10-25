@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.3.0] - unreleased
+
+### Added
+- `AppType` enum and optional `appType` constructor parameter on `ComfortCloudClient` to send `X-APP-TYPE` (`0` = iOS, `1` = Android). The API only accepts the current version of the declared platform, so iOS store versions must be sent as iOS.
+- Read-only `appVersion` / `appType` getters on `ComfortCloudClient`.
+- `AppVersionRejectedError` (extends `ServiceError`) for error code 4106, including the rejected version and platform.
+- CLI asks for the app platform.
+
+### Changed
+- `DEFAULT_APP_VERSION` updated from 3.4.0 to 5.1.0 (Android).
+
 ## [2.2.0] - 2026-07-25
 
 ### Added

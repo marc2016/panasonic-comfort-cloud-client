@@ -10,7 +10,7 @@ import { ServiceError } from './model/ServiceError.js'
 import { input, useEffect } from '@inquirer/prompts'
 import password from '@inquirer/password'
 import select from '@inquirer/select'
-import { DataMode } from './domain/enums.js'
+import { AppType, DataMode } from './domain/enums.js'
 import { OAuthClient } from './OAuthClient.js'
 import { DEFAULT_APP_VERSION } from './domain/appVersion.js'
 
@@ -295,13 +295,20 @@ async function start() {
 
   const versionInput = await input({ message: `App Version (default: ${DEFAULT_APP_VERSION})` })
   const appVersion = versionInput ? versionInput : DEFAULT_APP_VERSION
+  const appType: AppType = await select({
+    message: 'App platform (X-APP-TYPE)',
+    choices: [
+      { name: 'Android', value: AppType.ANDROID },
+      { name: 'iOS', value: AppType.IOS },
+    ],
+  })
 
   const answers = {
     username: await input({ message: 'Username' }),
     password: await password({ message: 'Password' }),
   }
 
-  client = new ComfortCloudClient(appVersion)
+  client = new ComfortCloudClient(appVersion, appType)
   await client.login(answers.username, answers.password)
   console.log('Login successful.')
 

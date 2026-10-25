@@ -10,7 +10,8 @@ import { Group } from './model/Group.js'
 import { Parameters } from './model/Parameters.js'
 import { TokenExpiredError } from './model/TokenExpiredError.js'
 import { AdapterCommunicationError } from './model/AdapterCommunicationError.js'
-import { DataMode } from './domain/enums.js'
+import { AppVersionRejectedError } from './model/AppVersionRejectedError.js'
+import { AppType, DataMode } from './domain/enums.js'
 import { getDateForHistoryData, getFormattedTimestamp, getTimezoneForHistoryData } from './domain/helper.js'
 import { HistoryDataResponse } from './model/HistoryData.js'
 import { OAuthClient } from './OAuthClient.js'
@@ -30,19 +31,27 @@ export class ComfortCloudClient {
   private axiosInstance: AxiosInstance
   public oauthClient: OAuthClient
 
-  private appVersion: string | undefined = ''
+  private _appVersion: string = ''
+  private _appType: AppType = AppType.ANDROID
 
   private clientId: string = ''
 
 
-  constructor(appVersion?: string) {
-    this.appVersion = appVersion
-    if (!this.appVersion)
-      this.appVersion = this.defaultAppVersion
+  constructor(appVersion?: string, appType: AppType = AppType.ANDROID) {
+    this._appVersion = appVersion || this.defaultAppVersion
+    this._appType = appType
     this.axiosInstance = axios.create({
       baseURL: this.baseUrl,
     })
     this.oauthClient = new OAuthClient(appVersion)
+  }
+
+  get appVersion(): string {
+    return this._appVersion
+  }
+
+  get appType(): AppType {
+    return this._appType
   }
 
   async login(
@@ -78,7 +87,7 @@ export class ComfortCloudClient {
       },
       {
         headers: {
-          ...getBaseRequestHeaders(this.appVersion, token),
+          ...getBaseRequestHeaders(this._appVersion, token, this._appType),
           'X-User-Authorization-V2': 'Bearer ' + token,
         },
         validateStatus: status => (status >= 200 && status < 300) || status === 200,
@@ -95,7 +104,7 @@ export class ComfortCloudClient {
     try {
       const response = await this.axiosInstance.get(this.urlPartGroup, {
         headers: {
-          ...getBaseRequestHeaders(this.appVersion, this.oauthClient.token),
+          ...getBaseRequestHeaders(this._appVersion, this.oauthClient.token, this._appType),
           'X-Client-Id': this.clientId,
           'X-User-Authorization-V2': 'Bearer ' + this.oauthClient.token,
         },
@@ -127,7 +136,7 @@ export class ComfortCloudClient {
         this.urlPartDevice + id,
         {
           headers: {
-            ...getBaseRequestHeaders(this.appVersion, this.oauthClient.token),
+            ...getBaseRequestHeaders(this._appVersion, this.oauthClient.token, this._appType),
             'X-Client-Id': this.clientId,
             'X-User-Authorization-V2': 'Bearer ' + this.oauthClient.token,
           },
@@ -162,6 +171,15 @@ export class ComfortCloudClient {
               error.message + '\n' + message,
               code,
               error.status ?? -1
+            )
+          case 4106:
+            throw new AppVersionRejectedError(
+              error.message + '\n' + message,
+              code,
+              error.status ?? -1,
+              this._appVersion,
+              this._appType,
+              error.response?.data
             )
           case 5005:
             throw new AdapterCommunicationError(
@@ -198,7 +216,7 @@ export class ComfortCloudClient {
         body,
         {
           headers: {
-            ...getBaseRequestHeaders(this.appVersion, this.oauthClient.token),
+            ...getBaseRequestHeaders(this._appVersion, this.oauthClient.token, this._appType),
             'X-Client-Id': this.clientId,
             'X-User-Authorization-V2': 'Bearer ' + this.oauthClient.token,
           },
@@ -232,7 +250,7 @@ export class ComfortCloudClient {
         body,
         {
           headers: {
-            ...getBaseRequestHeaders(this.appVersion, this.oauthClient.token),
+            ...getBaseRequestHeaders(this._appVersion, this.oauthClient.token, this._appType),
             'X-Client-Id': this.clientId,
             'X-User-Authorization-V2': 'Bearer ' + this.oauthClient.token,
           },
