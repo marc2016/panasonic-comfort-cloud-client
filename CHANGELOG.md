@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.0.0] - unreleased
+
+### Changed
+- **BREAKING:** requires Node.js 22.12 or newer. `axios-cookiejar-support` was updated to 7.x (with `http-cookie-agent` 8.x), which is ESM-only and is loaded through `require()`; Node versions before 22.12 fail with `ERR_REQUIRE_ESM`. Stay on 2.x for older Node versions.
+- CI tests on Node 22, 24 and 26.
+
+### Fixed
+- Peer dependency conflict between `http-cookie-agent` (needed `undici` 5/6) and `cheerio` (installs `undici` 7) that made `npm ci` fail with npm 10 in consuming projects (`Missing: undici@6.x from lock file`).
+
 ## [2.3.0] - 2026-10-25
 
 ### Added

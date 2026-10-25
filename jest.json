@@ -19,6 +19,7 @@
         "node"
     ],
     "moduleNameMapper": {
+        "^axios-cookiejar-support$": "<rootDir>/test/__mocks__/axios-cookiejar-support.ts",
         "^(\\.{1,2}/.*)\\.js$": "$1"
     }
 }

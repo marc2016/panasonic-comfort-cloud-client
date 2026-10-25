@@ -14,6 +14,8 @@ Panasonic Comfort Cloud Client for node.js to control air conditioning systems o
 
 ## Installing
 
+Requires **Node.js 22.12 or newer** (since 3.0.0). The cookie handling depends on ESM-only packages, which this CommonJS library loads via `require()`; older Node versions fail with `ERR_REQUIRE_ESM`. Node 22.12.x prints a harmless `ExperimentalWarning`, from 22.13 on it is silent. On older Node versions stay on `panasonic-comfort-cloud-client@2`.
+
 Using npm:
 
 ```bash
