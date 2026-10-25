@@ -16,5 +16,5 @@
 ## 3. Docs and release
 
 - [x] 3.1 Document the Node requirement (≥ 22.12, `ERR_REQUIRE_ESM` on older versions, stay on 2.x) in `README.md` and add a `3.0.0` entry with a **BREAKING** note to `CHANGELOG.md`; verify README renders
-- [ ] 3.2 Commit on `master`, bump to 3.0.0 (`npm version 3.0.0 --no-git-tag-version`, `chore: release version 3.0.0`), push and `npm publish` (requires explicit approval); verify `npm view panasonic-comfort-cloud-client version` shows 3.0.0
-- [ ] 3.3 Verify the library's GitHub Actions run (`nodejs.yml`) for the release commit is green on 22.x, 24.x and 26.x
+- [x] 3.2 Commit on `master`, bump to 3.0.0 (`npm version 3.0.0 --no-git-tag-version`, `chore: release version 3.0.0`), push and `npm publish` (requires explicit approval); verify `npm view panasonic-comfort-cloud-client version` shows 3.0.0
+- [x] 3.3 Verify the library's GitHub Actions run (`nodejs.yml`) for the release commit is green on 22.x, 24.x and 26.x
